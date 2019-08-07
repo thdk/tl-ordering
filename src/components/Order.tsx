@@ -32,7 +32,6 @@ const Order = (props: IOrderProps & { orderItems: (IOrderItem & Pick<IProduct, "
 };
 
 const mapStateToProps = (state: IState, ownProps: IOrderProps) => {
-    console.log(state.ui.isLoading);
     return {
         orderItems: state.orderItems.byOrderId[ownProps.id].reduce((p, c) => {
 

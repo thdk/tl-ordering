@@ -29,3 +29,9 @@ export interface IApiOrderItem extends IApiData {
 }
 
 export interface IApiProduct extends IApiData {};
+
+export interface IPlaceOrderResult extends IApiData {
+    result: string;
+    order?: IApiOrder;
+    reason?: string;
+}

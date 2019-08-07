@@ -21,7 +21,7 @@ const store = createStore(
   initState,
   applyMiddleware(
     thunkMiddleware,
-    logger
+    logger // TODO: only add logger middleware in development
   )
 );
 

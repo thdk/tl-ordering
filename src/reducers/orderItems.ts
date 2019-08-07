@@ -1,6 +1,5 @@
-import { ADD_ORDER, REMOVE_ORDER, IOrderAction } from "../actions/orders";
+import { IOrderAction } from "../actions/orders";
 import { IOrderItemAction } from "../actions/orderItems";
-import { IOrderItem } from "../interfaces/orders";
 import { OrderItemDictionary } from "../interfaces/state";
 
 export function orderItems(state: { byOrderId: OrderItemDictionary } = { byOrderId: {} as OrderItemDictionary }, action: IOrderItemAction | IOrderAction) {

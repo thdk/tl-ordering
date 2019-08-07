@@ -37,16 +37,16 @@ const OrderList = (props: Props) => {
 
 const mapStateToProps = (state: IState): PropsFromState => {
     return {
-        orders: state.orders,
-        isLoading: state.ui.isLoading
+        orders: state.orders.orders,
+        isLoading: state.orders.isLoading
     }
 };
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): PropsFromDispatch => {
     return {
         fetchOrders: () => dispatch(fetchOrders()),
-        onPlaceOrder: (id: string) => placeOrder(id)
-    }
+        onPlaceOrder: (id: string) => dispatch(placeOrder(id))
+    };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderList)
+export default connect(mapStateToProps, mapDispatchToProps)(OrderList);

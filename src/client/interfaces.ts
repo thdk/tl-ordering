@@ -10,3 +10,9 @@ export interface IOrderItemData {
     quantity: number;
     orderId: string;
 }
+
+export interface IPlaceOrderData {
+    success: boolean;
+    order?: IOrderData;
+    reason?: string;
+}

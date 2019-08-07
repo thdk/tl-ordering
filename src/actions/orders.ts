@@ -1,8 +1,10 @@
 import { IOrder } from "../interfaces/orders";
 import { Dispatch } from "redux";
-import { IApiOrder } from "../api/interfaces";
-import { convertOrders } from "../deserialization/orders";
-import { IOrderData } from "../client/interfaces";
+import { convertOrders, convertPlaceOrderResult } from "../client/deserialization/orders";
+import { IOrderData, IPlaceOrderData as IPlaceOrderResultData } from "../client/interfaces";
+import { IState } from "../interfaces/state";
+import { serializeOrder } from "../client/serialization/orders";
+import { cpus } from "os";
 
 // action types
 
@@ -10,24 +12,23 @@ export const FETCH_ORDERS_REQUEST = "FETCH_ORDERS_REQUEST";
 export const FETCH_ORDERS_SUCCESS = "FETCH_ORDERS_SUCCESS";
 export const FETCH_ORDERS_FAILURE = "FETCH_ORDERS_FAILURE";
 
-export const ADD_ORDER = "ADD_ORDER";
-export const REMOVE_ORDER = "REMOVE_ORDER";
-export const PLACE_ORDER = "PLACE_ORDER";
+export const PLACE_ORDER_REQUEST = "PLACE_ORDER_REQUEST";
+export const PLACE_ORDER_SUCCESS = "PLACE_ORDER_SUCCESS";
+export const PLACE_ORDER_FAILURE = "PLACE_ORDER_FAILURE";
 
 // action interfaces
-export interface IAddOrderAction {
-    type: typeof ADD_ORDER;
-    payload?: any;
-}
-
-export interface IRemoveOrderAction {
-    type: typeof REMOVE_ORDER;
-    payload?: any;
-}
-
 export interface IPlaceOrderAction {
-    type: typeof PLACE_ORDER;
-    payload?: any;
+    type: typeof PLACE_ORDER_REQUEST;
+    payload: string;
+}
+
+export interface IPlaceOrderSuccessAction {
+    type: typeof PLACE_ORDER_SUCCESS;
+    payload: IPlaceOrderResultData;
+}
+
+export interface IPlaceOrderFailureAction {
+    type: typeof PLACE_ORDER_FAILURE;
 }
 
 export interface IFetchOrdersAction {
@@ -43,33 +44,17 @@ export interface IFetchOrdersFailureAction {
     type: typeof FETCH_ORDERS_FAILURE;
 }
 
-export function fetchOrders() {
-    return (dispatch: Dispatch) => {
-        dispatch(fetchOrdersRequest());
-        return fetch(`${process.env.apiUrl}/orders`)
-            .then(res => {
-                return res.json()
-                    .then(convertOrders)
-                    .then(body => {
-                        dispatch(fetchOrdersSuccess(body));
-                    })
-            })
-            .catch(ex => {
-                console.error(ex);
-                dispatch(fetchOrdersFailure(ex))
-            })
-    };
-}
-
 export type IOrderAction =
-    IAddOrderAction |
-    IRemoveOrderAction |
     IFetchOrdersAction |
     IFetchOrdersFailureAction |
-    IFetchOrdersSuccessAction;
+    IFetchOrdersSuccessAction |
+    IPlaceOrderAction |
+    IPlaceOrderFailureAction |
+    IPlaceOrderSuccessAction;
 
 // action creators
 
+// begin fetch orders
 export const fetchOrdersRequest = () => {
     return {
         type: FETCH_ORDERS_REQUEST
@@ -90,24 +75,71 @@ const fetchOrdersFailure = (ex: any) => {
     }
 };
 
-export const addOrder = (order: IOrder): IAddOrderAction => {
-    return {
-        type: ADD_ORDER,
-        payload: order
-    }
-};
+export function fetchOrders() {
+    return (dispatch: Dispatch) => {
+        dispatch(fetchOrdersRequest());
+        return fetch(`${process.env.apiUrl}/orders`)
+            .then(res => {
+                return res.json()
+                    .then(convertOrders)
+                    .then(body => {
+                        dispatch(fetchOrdersSuccess(body));
+                    })
+            })
+            .catch(ex => {
+                console.error(ex);
+                dispatch(fetchOrdersFailure(ex))
+            })
+    };
+}
 
-export const removeOrder = (id: string): IRemoveOrderAction => {
-    return {
-        type: REMOVE_ORDER,
-        payload: id
-    }
-};
+// end fetch orders
 
-export const placeOrder = (id: string): IPlaceOrderAction => {
-    return {
-        type: PLACE_ORDER,
-        payload: id
+// begin place order
+
+export const placeOrderRequest = () => ({
+    type: PLACE_ORDER_REQUEST
+});
+
+export const placeOrderSuccess = (result: IPlaceOrderResultData): IPlaceOrderSuccessAction => ({
+    type: PLACE_ORDER_SUCCESS,
+    payload: result
+});
+
+export const placeOrderFailure = () => ({
+    type: PLACE_ORDER_FAILURE
+});
+
+export const placeOrder = (id: string) => {
+    return (dispatch: Dispatch, getState: () => IState) => {
+        dispatch(placeOrderRequest());
+
+        const state = getState();
+        const orderItems = state.orderItems.byOrderId[id];
+        const products = state.products.allIds.map(id => state.products.byId[id]);
+        const order = state.orders.orders.find(o => o.id === id);
+
+        if (!order) throw new Error(`Can't find order with id ${id}.`);
+
+        return fetch(`${process.env.apiUrl}/placeorder`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(serializeOrder(order, orderItems, products))
+        })
+            .then(res => {
+                console.log("Place order result");
+                return res.json()
+                    .then(convertPlaceOrderResult, (ex) => { throw new Error(ex); })
+                    .then(body => {
+                        dispatch(placeOrderSuccess(body));
+                    })
+            })
+            .catch(ex => {
+                console.error(ex);
+                dispatch(fetchOrdersFailure(ex))
+            })
     };
 };
 
