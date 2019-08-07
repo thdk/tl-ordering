@@ -4,16 +4,31 @@ import { connect } from 'react-redux';
 import { IOrderItem } from '../interfaces/orders';
 import OrderItemList from './OrderItemList';
 import OrderItemAdd from './OrderItemAdd';
-import { IProduct } from '../interfaces/products';
-import { IOrderItemProps, OrderItemPropsFromState } from './OrderItem';
+import { Dispatch } from 'redux';
+import { placeOrder, placeOrderRequest } from '../actions/orders';
+import { RouteComponentProps } from 'react-router-dom';
+import { ThunkDispatch } from 'redux-thunk';
 
 export interface IOrderProps {
+    id: string;
+}
+
+export interface IOrderMatchProps extends RouteComponentProps<IOrderProps> {
+}
+
+export type PropsFromDispatch = {
     readonly onClick: () => void;
-    readonly id: string;
+}
+
+export type PropsFromState = {
+    readonly orderItems: (IOrderItem & { unitPrice: number })[];
     readonly customerId: string;
     readonly total: number;
 }
-const Order = (props: IOrderProps & { orderItems: (IOrderItem & Pick<IProduct, "unitPrice">)[] }) => {
+
+type Props = IOrderProps & PropsFromDispatch & PropsFromState;
+
+const Order = (props: Props) => {
     const { onClick, id, customerId, orderItems } = props;
 
     const total = orderItems.reduce((p, c) => {
@@ -32,8 +47,17 @@ const Order = (props: IOrderProps & { orderItems: (IOrderItem & Pick<IProduct, "
 };
 
 const mapStateToProps = (state: IState, ownProps: IOrderProps) => {
+    const { id: orderId } = ownProps;
+    // Todo use redux selector to get order by id
+    const order = state.orders.orders.find(o => o.id === orderId);
+    if (!order) throw new Error("Can't find order for " + orderId)
+
+    const { customerId, total } = order;
+
     return {
-        orderItems: state.orderItems.byOrderId[ownProps.id].reduce((p, c) => {
+        customerId,
+        total,
+        orderItems: state.orderItems.byOrderId[orderId].reduce((p, c) => {
 
             const product = state.products.byId[c.productId];
             if (!product) {
@@ -46,9 +70,18 @@ const mapStateToProps = (state: IState, ownProps: IOrderProps) => {
     };
 };
 
+const mapDispatchToProps = (dipatch: ThunkDispatch<{}, {}, any>, ownProps: IOrderProps) => {
+    return {
+        onClick: () => {
+            dipatch(placeOrder(ownProps.id))
+        }
+    };
+}
 
-const ConnectedOrder = connect(
+
+const ConnectedOrder = connect<PropsFromState, PropsFromDispatch, IOrderProps, IState>(
     mapStateToProps,
+    mapDispatchToProps
 )(Order);
 
 export default ConnectedOrder;

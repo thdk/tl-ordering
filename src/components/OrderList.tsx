@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react'
+import { ThunkDispatch } from 'redux-thunk';
+import { connect } from 'react-redux'
+
 import { IOrder } from '../interfaces/orders';
+import OrderLink from './links/OrderLink';
 import Order from './Order';
 import { IState } from '../interfaces/state';
 import { placeOrder, fetchOrders } from '../actions/orders';
-import { connect } from 'react-redux'
-import { ThunkDispatch } from 'redux-thunk';
 
 type PropsFromState = {
     orders: IOrder[];
@@ -13,16 +15,15 @@ type PropsFromState = {
 
 type PropsFromDispatch = {
     fetchOrders: () => void;
-    onPlaceOrder: (id: string) => void;
 }
 
 type Props = PropsFromState & PropsFromDispatch;
 
 const OrderList = (props: Props) => {
-    const { fetchOrders, orders, isLoading, onPlaceOrder } = props;
+    const { fetchOrders, orders, isLoading } = props;
 
     useEffect(() => {
-        fetchOrders()
+        // fetchOrders()
     }, []);
 
     return isLoading
@@ -30,7 +31,10 @@ const OrderList = (props: Props) => {
         : <ul>
             {orders.map(order => {
                 const { id } = order;
-                return <Order key={id} {...order} onClick={() => onPlaceOrder(id)} />
+                return <React.Fragment key={id}>
+                    <OrderLink orderId={id}>Order detail</OrderLink>
+                    <Order key={id} id={id} />
+                </React.Fragment>;
             })}
         </ul>;
 };
@@ -45,7 +49,6 @@ const mapStateToProps = (state: IState): PropsFromState => {
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): PropsFromDispatch => {
     return {
         fetchOrders: () => dispatch(fetchOrders()),
-        onPlaceOrder: (id: string) => dispatch(placeOrder(id))
     };
 };
 

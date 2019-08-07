@@ -14,7 +14,7 @@ export interface IOrderItemProps extends IOrderItem {
 type Props = OrderItemPropsFromState & DispatchFromProps & IOrderItemProps;
 
 const OrderItem = (props: Props) => {
-    const { onDeleteOrderItem, productId, quantity, unitPrice, orderId } = props;
+    const { onDeleteOrderItem, productId, quantity, unitPrice } = props;
 
     const total = (quantity * unitPrice).toFixed(2);
     return (
@@ -46,3 +46,4 @@ const ConnectedOrderItem = connect
     )(OrderItem);
 
 export default ConnectedOrderItem;
+

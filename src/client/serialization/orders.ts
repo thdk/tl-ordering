@@ -10,7 +10,8 @@ export const serializeOrder = (order: IOrder, items: IOrderItem[], products: IPr
     return {
         id: order.id,
         items: apiItems,
-        total: apiItems.reduce((p, c) => p += (+c.total), 0).toFixed(2)
+        total: apiItems.reduce((p, c) => p += (+c.total), 0).toFixed(2),
+        customerId: order.customerId
     }
 };
 
