@@ -45,6 +45,8 @@ const initialState: IState = {
 
 const store = createStore(orderingApp, initialState);
 
+(window as any)["store"] = store;
+
 render(
   <Provider store={store}>
     <App />

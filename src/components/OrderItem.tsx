@@ -1,5 +1,4 @@
 import React from 'react'
-import { IState } from '../interfaces/state';
 import { removeOrderItem } from '../actions/orderItems';
 import { connect } from 'react-redux';
 import { IOrderItem } from '../interfaces/orders';
@@ -13,8 +12,9 @@ const OrderItem = (props: IOrderItemProps) => {
     const { onDeleteOrderItem, productId, quantity, total, unitPrice, orderId } = props;
 
     return (
-        <li onClick={() => onDeleteOrderItem(productId, orderId)}>
+        <li>
             {productId}: ${quantity} x ${unitPrice} = ${total}
+            <input type="button" value="x" onClick={() => onDeleteOrderItem(productId, orderId)}/>
         </li>
     );
 };
@@ -28,6 +28,7 @@ const mapDispatchToProps = (dispatch: any) => {
 };
 
 const ConnectedOrderItem = connect(
+    null,
     mapDispatchToProps,
 )(OrderItem);
 

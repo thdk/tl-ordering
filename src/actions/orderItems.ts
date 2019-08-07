@@ -7,27 +7,27 @@ export const REMOVE_ORDER_ITEM = "REMOVE_ORDER_ITEM";
 // action interfaces
 export interface IAddOrderItemAction {
     type: typeof ADD_ORDER_ITEM;
-    payload: any;
+    payload?: { item: IOrderItem, orderId: string };
 }
 
 export interface IRemoveOrderItemAction {
     type: typeof REMOVE_ORDER_ITEM;
-    payload: { id: string, orderId: string };
+    payload?: { productId: string, orderId: string };
 }
 
 export type IOrderItemAction = IAddOrderItemAction | IRemoveOrderItemAction;
 
 // action creators
-export const addOrderItem = (orderItem: IOrderItem): IAddOrderItemAction => {
+export const addOrderItem = (orderItem: IOrderItem, orderId: string): IAddOrderItemAction => {
     return {
         type: ADD_ORDER_ITEM,
-        payload: orderItem
+        payload: { item: orderItem, orderId }
     }
 };
 
-export const removeOrderItem = (id: string, orderId: string): IRemoveOrderItemAction => {
+export const removeOrderItem = (productId: string, orderId: string): IRemoveOrderItemAction => {
     return {
         type: REMOVE_ORDER_ITEM,
-        payload: { id, orderId }
+        payload: { productId, orderId }
     }
 };

@@ -11,8 +11,12 @@ export interface IOrderProps {
     readonly customerId: string;
     readonly total: number;
 }
-const Order = (props: IOrderProps & {orderItems: IOrderItem[]})=> {
-    const { onClick, id, customerId, total, orderItems } = props;
+const Order = (props: IOrderProps & { orderItems: IOrderItem[] }) => {
+    const { onClick, id, customerId, orderItems } = props;
+
+    const total = orderItems.reduce((p, c) => {
+        return p += c.quantity * c.unitPrice;
+    }, 0).toFixed(2);
 
     return (
         <>

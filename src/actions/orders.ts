@@ -8,17 +8,17 @@ export const PLACE_ORDER = "PLACE_ORDER";
 // action interfaces
 export interface IAddOrderAction {
     type: typeof ADD_ORDER;
-    payload: any;
+    payload?: any;
 }
 
 export interface IRemoveOrderAction {
     type: typeof REMOVE_ORDER;
-    payload: any;
+    payload?: any;
 }
 
 export interface IPlaceOrderAction {
     type: typeof PLACE_ORDER;
-    payload: any;
+    payload?: any;
 }
 
 
