@@ -15,5 +15,4 @@ const OrderItemList = (props: { orderId: string, orderItems: IOrderItem[] }) => 
     );
 };
 
-
 export default OrderItemList;

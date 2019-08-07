@@ -1,40 +1,52 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { IOrder } from '../interfaces/orders';
 import Order from './Order';
 import { IState } from '../interfaces/state';
-import { placeOrder } from '../actions/orders';
+import { placeOrder, fetchOrders } from '../actions/orders';
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
-const OrderList = (props: { orders: IOrder[], onPlaceOrder: (id: string) => void }) => {
-    const { orders, onPlaceOrder } = props;
-    return (
-        <ul>
+type PropsFromState = {
+    orders: IOrder[];
+    isLoading: boolean;
+};
+
+type PropsFromDispatch = {
+    fetchOrders: () => void;
+    onPlaceOrder: (id: string) => void;
+}
+
+type Props = PropsFromState & PropsFromDispatch;
+
+const OrderList = (props: Props) => {
+    const { fetchOrders, orders, isLoading, onPlaceOrder } = props;
+
+    useEffect(() => {
+        fetchOrders()
+    }, []);
+
+    return isLoading
+        ? <div>LOADING</div>
+        : <ul>
             {orders.map(order => {
                 const { id } = order;
                 return <Order key={id} {...order} onClick={() => onPlaceOrder(id)} />
             })}
-        </ul>
-    );
+        </ul>;
 };
 
-const mapStateToProps = (state: IState) => {
+const mapStateToProps = (state: IState): PropsFromState => {
     return {
-        orders: state.orders
+        orders: state.orders,
+        isLoading: state.ui.isLoading
     }
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): PropsFromDispatch => {
     return {
-        onPlaceOrder: (id: string) => {
-            dispatch(placeOrder(id))
-        }
-    };
+        fetchOrders: () => dispatch(fetchOrders()),
+        onPlaceOrder: (id: string) => placeOrder(id)
+    }
 };
 
-const ConnectedOrderList = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(OrderList)
-
-export default ConnectedOrderList;
+export default connect(mapStateToProps, mapDispatchToProps)(OrderList)

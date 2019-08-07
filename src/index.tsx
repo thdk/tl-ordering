@@ -1,57 +1,31 @@
-import React from 'react'
-import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import React from 'react';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import logger from 'redux-logger';
+
+import rootReducer from './reducers';
 import App from './components/App'
-import orderingApp from './reducers';
-import { IState } from './interfaces/state';
+import { mockApi } from './tests/apimocks';
+import { initialState } from './tests/initialState';
 
-const initialState: IState = {
-  orders: [
-    {
-      id: "1",
-      customerId: "1",
-      total: 109.90
-    },
-    {
-      id: "2",
-      customerId: "13",
-      total: 49.90
-    }
-  ],
-  orderItems: {
-    byOrderId: {
-        "1": [{
-          productId: "B102",
-          quantity: 10,
-        },
-        {
-          productId: "B202",
-          quantity: 20,
-        } ],
-        "2": [{
-          productId: "B102",
-          quantity: 1,
-        }]
-    }
-  },
-  products: {
-      byId: {
-        "B102": {
-          unitPrice: 10,
-          id:"B102"
-        },
-        "B202": {
-          unitPrice: 10,
-          id:"B202"
-        }
-      },
-      allIds: ["B102", "B202"]
-  }
-}
+// For development without api only...
+mockApi();
 
-const store = createStore(orderingApp, initialState);
+// Use an initial state until all api's are mocked
+const initState = initialState;
 
+const store = createStore(
+  rootReducer,
+  initState,
+  applyMiddleware(
+    thunkMiddleware,
+    logger
+  )
+);
+
+// Make the store available on the window object (for development purposes only)
 (window as any)["store"] = store;
 
 render(

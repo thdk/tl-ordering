@@ -13,14 +13,17 @@ export default {
             'react-dom': 'ReactDOM',
             'react-redux': 'ReactRedux',
             'redux': 'redux',
+            'fetch-mock': 'fetchMock',
+            'redux-logger': 'reduxLogger',
         }
     },
     plugins: [
         replace({
-            'process.env.NODE_ENV': `'${process.env.NODE_ENV || "development"}'`
+            'process.env.NODE_ENV': `'${process.env.NODE_ENV || "development"}'`,
+            'process.env.apiUrl': `'${process.env.apiUrl || "http://api.localhost"}'`
         }),
         typescript(),
         resolve(),
     ],
-    external: ['react', 'react-dom', 'react-redux']
+    external: ['react', 'react-dom', 'react-redux', "fetch-mock", "redux-logger"]
 };

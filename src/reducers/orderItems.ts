@@ -1,10 +1,19 @@
-import { ADD_ORDER, REMOVE_ORDER } from "../actions/orders";
+import { ADD_ORDER, REMOVE_ORDER, IOrderAction } from "../actions/orders";
 import { IOrderItemAction } from "../actions/orderItems";
 import { IOrderItem } from "../interfaces/orders";
 import { OrderItemDictionary } from "../interfaces/state";
 
-export function orderItems(state: { byOrderId: OrderItemDictionary } = { byOrderId: {} as OrderItemDictionary }, action: IOrderItemAction) {
+export function orderItems(state: { byOrderId: OrderItemDictionary } = { byOrderId: {} as OrderItemDictionary }, action: IOrderItemAction | IOrderAction) {
   switch (action.type) {
+    case "FETCH_ORDERS_SUCCESS": {
+      return {
+        ...state,
+        byOrderId: action.payload.reduce((p, c) => {
+          p[c.id] = [...(p[c.id] || []), ...c.items]
+          return p;
+        }, {} as OrderItemDictionary)
+      }
+    }
     case "ADD_ORDER_ITEM": {
       const { item, orderId } = action.payload!;
 
