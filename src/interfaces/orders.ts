@@ -6,7 +6,5 @@ export interface IOrder {
 
 export interface IOrderItem {
     readonly productId: string;
-    readonly quantity: number,
-    readonly unitPrice: number,
-    readonly total: number,
+    readonly quantity: number;
 }

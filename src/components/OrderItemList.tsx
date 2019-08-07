@@ -1,8 +1,6 @@
 import React from 'react'
-import { IOrder, IOrderItem } from '../interfaces/orders';
-import { IState } from '../interfaces/state';
-import { placeOrder } from '../actions/orders';
-import { connect } from 'react-redux'
+import { IOrderItem } from '../interfaces/orders';
+
 import OrderItem from './OrderItem';
 
 const OrderItemList = (props: { orderId: string, orderItems: IOrderItem[] }) => {

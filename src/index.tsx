@@ -24,22 +24,29 @@ const initialState: IState = {
         "1": [{
           productId: "B102",
           quantity: 10,
-          unitPrice: 4.99,
-          total: 49.90
         },
         {
           productId: "B202",
           quantity: 20,
-          unitPrice: 3,
-          total: 60.00
         } ],
         "2": [{
           productId: "B102",
           quantity: 1,
-          unitPrice: 4.99,
-          total: 4.99
         }]
     }
+  },
+  products: {
+      byId: {
+        "B102": {
+          unitPrice: 10,
+          id:"B102"
+        },
+        "B202": {
+          unitPrice: 10,
+          id:"B202"
+        }
+      },
+      allIds: ["B102", "B202"]
   }
 }
 
