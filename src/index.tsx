@@ -12,11 +12,12 @@ import { mockApi } from './tests/apimocks';
 import { initialState } from './tests/initialState';
 import { IOrderMatchProps } from './components/Order';
 import Order from './components/Order';
+import OrderList from './components/OrderList';
 
 // For development without api only...
 const params = new URLSearchParams(window.location.search);
 const debug = params.get("debug");
-if (debug !== undefined) mockApi();
+if (debug !== null) mockApi();
 
 // Use an initial state until all api's are mocked
 const initState = initialState;
@@ -36,9 +37,9 @@ const store = createStore(
 render(
   <Provider store={store}>
     <Router>
-      <Route exact path="/" component={App} />
+      <Route exact path="/" render={() => (<App><OrderList></OrderList></App>)} />
       <Route path="/orders/:id" render={({ match }: IOrderMatchProps) => (
-        <Order id={match.params.id} />)} />
+        <App><Order id={match.params.id} /></App>)} />
     </Router>
   </Provider>,
   document.getElementById('root')
