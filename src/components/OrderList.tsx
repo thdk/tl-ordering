@@ -22,9 +22,10 @@ type Props = PropsFromState & PropsFromDispatch;
 const OrderList = (props: Props) => {
     const { fetchOrders, orders, isLoading } = props;
 
-    useEffect(() => {
-        // fetchOrders()
-    }, []);
+    if (!orders.length)
+        useEffect(() => {
+            fetchOrders()
+        }, []);
 
     return isLoading
         ? <div>LOADING</div>

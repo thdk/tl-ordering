@@ -1,6 +1,8 @@
 import { mockFetchOrders, mockPlaceOrder } from "./orders";
+import { mockFetch } from "../fetch";
 
 export const mockApi = () => {
-    mockFetchOrders(1000); // delay mocked api call with 1000ms
-    mockPlaceOrder();
-}
+    const mockedFetch = mockFetch();
+    mockFetchOrders(mockedFetch);
+    mockPlaceOrder(mockedFetch);
+};

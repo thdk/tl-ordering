@@ -1,4 +1,4 @@
-import { IApiOrder, IApiOrderItem, IPlaceOrderResult } from "../../api/interfaces";
+import { IApiOrder, IApiOrderItem, IApiPlaceOrderResult } from "../../api/interfaces";
 import { IOrderData, IOrderItemData, IPlaceOrderData } from "../interfaces";
 
 export const convertOrders = (apiData: IApiOrder[]): IOrderData[] =>
@@ -17,7 +17,7 @@ export const convertOrderItem = (apiData: IApiOrderItem, orderId: string): IOrde
     quantity: +apiData.quantity
 });
 
-export const convertPlaceOrderResult = (apiData: IPlaceOrderResult): IPlaceOrderData =>({
+export const convertPlaceOrderResult = (apiData: IApiPlaceOrderResult): IPlaceOrderData =>({
     success: apiData.result.toLowerCase() === "true",
     order: apiData.order ? convertOrder(apiData.order) : undefined,
     reason: apiData.reason,

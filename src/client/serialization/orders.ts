@@ -7,12 +7,14 @@ import { IOrder, IOrderItem } from "../../interfaces/orders";
 
 export const serializeOrder = (order: IOrder, items: IOrderItem[], products: IProduct[]): IApiOrder => {
     const apiItems = serializeOrderItems(items, products);
-    return {
+    const apiOrder: IApiOrder = {
         id: order.id,
         items: apiItems,
         total: apiItems.reduce((p, c) => p += (+c.total), 0).toFixed(2),
-        customerId: order.customerId
-    }
+    };
+
+    apiOrder["customer-id"] = order.customerId;
+    return apiOrder;
 };
 
 export const serializeOrderItems = (orderItems: IOrderItem[], products: IProduct[]): IApiOrderItem[] =>

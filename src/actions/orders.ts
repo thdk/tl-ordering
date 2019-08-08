@@ -1,10 +1,8 @@
-import { IOrder } from "../interfaces/orders";
 import { Dispatch } from "redux";
 import { convertOrders, convertPlaceOrderResult } from "../client/deserialization/orders";
 import { IOrderData, IPlaceOrderData as IPlaceOrderResultData } from "../client/interfaces";
 import { IState } from "../interfaces/state";
 import { serializeOrder } from "../client/serialization/orders";
-import { cpus } from "os";
 
 // action types
 
