@@ -1,7 +1,7 @@
 import { IApiPlaceOrderResult, IApiOrder } from "../../api/interfaces";
 import { MockedFetch } from "../fetch";
 
-const ordersTestData = [
+export const ordersTestData = [
     {
         "id": "1",
         "customer-id": "1",

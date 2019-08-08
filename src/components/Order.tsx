@@ -8,6 +8,7 @@ import { Dispatch } from 'redux';
 import { placeOrder, placeOrderRequest } from '../actions/orders';
 import { RouteComponentProps } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
+import OrderOverviewLink from './links/OrderOverviewLink';
 
 export interface IOrderProps {
     id: string;
@@ -35,13 +36,37 @@ const Order = (props: Props) => {
         return p += c.quantity * c.unitPrice;
     }, 0).toFixed(2);
 
+    const listJSX = orderItems.length
+        ? <>
+            <OrderItemList orderId={id} orderItems={orderItems} />
+            Total: {total}
+        </>
+        : <div>This order contains no orders</div>;
+
     return (
         <>
-            <div onClick={onClick}>
-                {id} (${total}) for customer: {customerId}
+            <div>
+                Order detail page for order <span style={{ fontWeight: "bold" }}>{id}</span>
+                <hr />
+                <br />
+                Customer: {customerId}
             </div>
-            <OrderItemList orderId={id} orderItems={orderItems} />
-            <OrderItemAdd orderId={id}></OrderItemAdd>
+            {listJSX}
+
+            <br />
+            <div>
+                Add more product to this order:
+                <OrderItemAdd orderId={id}></OrderItemAdd>
+            </div>
+            <br />
+            <div>
+                <input type="button" onClick={onClick} value="Place order"></input>
+                <br />
+                Response printed in the developer console...
+
+                <br/>
+                <OrderOverviewLink>Back to order overview</OrderOverviewLink>
+            </div>
         </>
     );
 };

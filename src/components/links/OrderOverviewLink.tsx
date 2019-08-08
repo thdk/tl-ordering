@@ -1,16 +1,14 @@
 import React, { HTMLProps } from 'react'
 import { NavLink } from 'react-router-dom'
 
-export interface IOrderLinkProps extends HTMLProps<HTMLAnchorElement> {
-    orderId: string;
-}
+export interface IOrderOverviewLinkProps extends HTMLProps<HTMLAnchorElement> { }
 
-const OrderLink = (props: IOrderLinkProps) => {
-    const { orderId, children } = props;
+const OrderOverviewLink = (props: IOrderOverviewLinkProps) => {
+    const { children } = props;
     return (
         <NavLink
             exact
-            to={`/orders/${orderId}`}
+            to={`/`}
             activeStyle={{
                 textDecoration: 'none',
                 color: 'black'
@@ -21,4 +19,4 @@ const OrderLink = (props: IOrderLinkProps) => {
     );
 };
 
-export default OrderLink;
+export default OrderOverviewLink;

@@ -3,10 +3,10 @@ import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux'
 
 import { IOrder } from '../interfaces/orders';
-import OrderLink from './links/OrderLink';
-import Order from './Order';
 import { IState } from '../interfaces/state';
-import { placeOrder, fetchOrders } from '../actions/orders';
+import { fetchOrders } from '../actions/orders';
+import OrderListItem from './OrderListitem';
+import { OrderListItemHeader } from './OrderListItemHeader';
 
 type PropsFromState = {
     orders: IOrder[];
@@ -29,15 +29,10 @@ const OrderList = (props: Props) => {
 
     return isLoading
         ? <div>LOADING</div>
-        : <ul>
-            {orders.map(order => {
-                const { id } = order;
-                return <React.Fragment key={id}>
-                    <OrderLink orderId={id}>Order detail</OrderLink>
-                    <Order key={id} id={id} />
-                </React.Fragment>;
-            })}
-        </ul>;
+        : <div className="list">
+            <OrderListItemHeader></OrderListItemHeader>
+            {orders.map(order => <OrderListItem key={order.id} order={order}></OrderListItem>)}
+        </div>;
 };
 
 const mapStateToProps = (state: IState): PropsFromState => {

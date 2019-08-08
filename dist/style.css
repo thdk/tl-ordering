@@ -1,0 +1,23 @@
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+}
+
+.row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.row.header {
+    font-weight: bold;
+}
+
+.row-left, .row-right {
+    display: flex;
+}
+
+.row-left div, .row-right div {
+    width: 100px;
+}
