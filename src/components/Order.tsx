@@ -1,7 +1,7 @@
 import React from 'react'
 import { IState } from '../interfaces/state';
 import { connect } from 'react-redux';
-import { IOrderItem } from '../interfaces/orders';
+import { IOrderItem, IOrder } from '../interfaces/orders';
 import OrderItemList from './OrderItemList';
 import OrderItemAdd from './OrderItemAdd';
 import { Dispatch } from 'redux';
@@ -23,13 +23,21 @@ export type PropsFromDispatch = {
 
 export type PropsFromState = {
     readonly orderItems: (IOrderItem & { unitPrice: number })[];
-    readonly customerId: string;
+    readonly order?: IOrder;
 }
 
 type Props = IOrderProps & PropsFromDispatch & PropsFromState;
 
 const Order = (props: Props) => {
-    const { onClick, id, customerId, orderItems } = props;
+    const { onClick, id, orderItems, order } = props;
+
+    if (!order) return <div>
+        Order not found
+        <br />
+        <a href="?debug">Use mocked api?</a>
+    </div>;
+
+    const { customerId } = order;
 
     const total = orderItems.reduce((p, c) => {
         return p += c.quantity * c.unitPrice;
@@ -54,7 +62,7 @@ const Order = (props: Props) => {
 
             <br />
             <div>
-                Add more product to this order:
+                Add more products to this order:
                 <OrderItemAdd orderId={id}></OrderItemAdd>
             </div>
             <br />
@@ -63,7 +71,7 @@ const Order = (props: Props) => {
                 <br />
                 Response printed in the developer console...
 
-                <br/>
+                <br />
                 <OrderOverviewLink>Back to order overview</OrderOverviewLink>
             </div>
         </>
@@ -74,14 +82,11 @@ const mapStateToProps = (state: IState, ownProps: IOrderProps) => {
     const { id: orderId } = ownProps;
     // Todo use redux selector to get order by id
     const order = state.orders.orders.find(o => o.id === orderId);
-    if (!order) throw new Error("Can't find order for " + orderId)
-
-    const { customerId } = order;
 
     return {
-        customerId,
-        orderItems: state.orderItems.byOrderId[orderId].reduce((p, c) => {
-
+        order,
+        // Todo: use selector to get orderitems by order with unitprice
+        orderItems: (state.orderItems.byOrderId[orderId] || []).reduce((p, c) => {
             const product = state.products.byId[c.productId];
             if (!product) {
                 console.error(`No product found for ${c.productId}. Product removed from order item list.`);

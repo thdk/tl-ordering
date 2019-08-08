@@ -48,7 +48,7 @@ const OrderItemAdd = (props: Props) => {
                 ${products.map(product => <option key={product.id} value={product.id}>{product.id}</option>)}
             </select>
             <label>Quantity:</label><input type="number" min="0" ref={quantityRef} defaultValue={"1"}></input>
-            <input type="submit" value="V" />
+            <input type="submit" value="Add product" />
         </form>
     );
 };
