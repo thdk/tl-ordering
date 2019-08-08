@@ -25,8 +25,5 @@ export const initialState: Partial<IState> = {
             }
         },
         allIds: ["B102", "B202", "B303", "A101", "A102"]
-    },
-    ui: {
-        isLoading: false,
     }
 }

@@ -15,6 +15,5 @@ export interface IState {
     orderItems: {
         byOrderId: OrderItemDictionary;
     },
-    products: IProductState,
-    ui: IUiState
+    products: IProductState
 }
