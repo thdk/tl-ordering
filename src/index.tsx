@@ -14,7 +14,9 @@ import { IOrderMatchProps } from './components/Order';
 import Order from './components/Order';
 
 // For development without api only...
-mockApi();
+const params = new URLSearchParams(window.location.search);
+const debug = params.get("debug");
+if (debug !== undefined) mockApi();
 
 // Use an initial state until all api's are mocked
 const initState = initialState;

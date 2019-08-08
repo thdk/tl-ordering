@@ -136,7 +136,7 @@ export const placeOrder = (id: string) => {
             })
             .catch(ex => {
                 console.error(ex);
-                dispatch(fetchOrdersFailure(ex))
+                dispatch(placeOrderFailure())
             })
     };
 };

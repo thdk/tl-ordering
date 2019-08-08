@@ -36,6 +36,30 @@ npm install
 npm run start
 ```
 
+## How to use
+
+### Without a working API => Let's mock it!
+
+To fake api calls made from the application, simply add `?debug` to the querystring.
+Mocked api calls will be logged in the developer console of the browser.
+
+### With a working API
+By default the app will try use data served by an api.
+The api base url can be set...
+
+* ... during the build process:
+
+```sh
+process.env.apiUrl = 'https://api.example.com';
+```
+
+* ... or in `rollup.config.js`
+```sh
+ replace({
+     'process.env.apiUrl': `'${process.env.apiUrl || "http://api.localhost"}'`
+ }),
+```
+
 ## Built With
 
 * [react](https://reactjs.org/) - The web framework used
@@ -43,6 +67,10 @@ npm run start
 * [typescript](https://www.typescriptlang.org/) - Javascript that scales
 * [rollup](https://rollupjs.org) - Module bundler
 * [npm](https://www.npmjs.com/) - Package manager
+
+## Browser support notice
+
+This has been developed without browser support in mind as it's not built for production but for educational reasons only.
 
 ## Authors
 

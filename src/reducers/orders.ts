@@ -21,7 +21,6 @@ export function orders(state: IOrderState = { orders: [], isLoading: false }, ac
             return {
                 ...state,
                 isLoading: false,
-                orders: []
             };
         }
         case "PLACE_ORDER_SUCCESS": {
