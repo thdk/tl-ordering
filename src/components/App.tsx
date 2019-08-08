@@ -32,7 +32,7 @@ const App = (props: Props) => {
   const appJSX = isLoading ? <>LOADING</> : children;
   return (
     <div>
-      {appJSX}
+      {orders.length ? appJSX : <>LOADING</>}
     </div>
   );
 };
