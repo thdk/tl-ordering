@@ -1,4 +1,4 @@
-# Project Title
+# TL Ordering
 
 A sample project to list orders.
 
@@ -14,7 +14,7 @@ npm install npm@latest -g
 
 ### Installing
 
-1. Clone this repo:
+1. Clone this repo
 ```sh
 git clone https://github.com/thdk/tl-ordering.git
 ```
