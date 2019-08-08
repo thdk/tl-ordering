@@ -24,7 +24,6 @@ export type PropsFromDispatch = {
 export type PropsFromState = {
     readonly orderItems: (IOrderItem & { unitPrice: number })[];
     readonly customerId: string;
-    readonly total: number;
 }
 
 type Props = IOrderProps & PropsFromDispatch & PropsFromState;
@@ -77,11 +76,10 @@ const mapStateToProps = (state: IState, ownProps: IOrderProps) => {
     const order = state.orders.orders.find(o => o.id === orderId);
     if (!order) throw new Error("Can't find order for " + orderId)
 
-    const { customerId, total } = order;
+    const { customerId } = order;
 
     return {
         customerId,
-        total,
         orderItems: state.orderItems.byOrderId[orderId].reduce((p, c) => {
 
             const product = state.products.byId[c.productId];

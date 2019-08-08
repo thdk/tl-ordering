@@ -1,47 +1,6 @@
 import { IState } from "../interfaces/state";
 
 export const initialState: Partial<IState> = {
-    orders: {
-        orders: [{
-            id: "1",
-            customerId: "1"
-        },
-        {
-            id: "2",
-            customerId: "2"
-        },
-        {
-            id: "3",
-            customerId: "3"
-        }],
-        isLoading: false
-    },
-    orderItems: {
-        byOrderId: {
-            "1": [
-                {
-                    productId: "B102",
-                    quantity: 10,
-                }
-            ],
-            "2": [
-                {
-                    productId: "B102",
-                    quantity: 5,
-                }
-            ],
-            "3": [
-                {
-                    productId: "A101",
-                    quantity: 2,
-                },
-                {
-                    productId: "A102",
-                    quantity: 1,
-                }
-            ]
-        }
-    },
     products: {
         byId: {
             "B102": {

@@ -60,9 +60,6 @@ process.env.apiUrl = 'https://api.example.com';
  }),
 ```
 
-Note that the app is loaded with order data in it's initial state.
-So only the placeOrder api call will be called.
-
 ## Built With
 
 * [react](https://reactjs.org/) - The web framework used
