@@ -7,14 +7,14 @@ export function orders(state: IOrderState = { orders: [], isLoading: false }, ac
         case "FETCH_ORDERS_REQUEST": {
             return {
                 ...state,
-                isLoading: true
+                isLoading: true,
             };
         }
         case "FETCH_ORDERS_SUCCESS": {
             return {
                 ...state,
                 isLoading: false,
-                orders: action.payload
+                orders: action.payload,
             };
         }
         case "FETCH_ORDERS_FAILURE": {
@@ -33,6 +33,6 @@ export function orders(state: IOrderState = { orders: [], isLoading: false }, ac
             }
         }
         default:
-            return state
+            return state;
     }
 }

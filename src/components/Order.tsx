@@ -1,14 +1,14 @@
-import React from 'react'
-import { IState } from '../interfaces/state';
-import { connect } from 'react-redux';
-import { IOrderItem, IOrder } from '../interfaces/orders';
-import OrderItemList from './OrderItemList';
-import OrderItemAdd from './OrderItemAdd';
-import { Dispatch } from 'redux';
-import { placeOrder, placeOrderRequest } from '../actions/orders';
-import { RouteComponentProps } from 'react-router-dom';
-import { ThunkDispatch } from 'redux-thunk';
-import OrderOverviewLink from './links/OrderOverviewLink';
+import React from "react";
+import { connect } from "react-redux";
+import { RouteComponentProps } from "react-router-dom";
+import { Dispatch } from "redux";
+import { ThunkDispatch } from "redux-thunk";
+import { placeOrder, placeOrderRequest } from "../actions/orders";
+import { IOrder, IOrderItem } from "../interfaces/orders";
+import { IState } from "../interfaces/state";
+import OrderOverviewLink from "./links/OrderOverviewLink";
+import OrderItemAdd from "./OrderItemAdd";
+import OrderItemList from "./OrderItemList";
 
 export interface IOrderProps {
     id: string;
@@ -17,25 +17,27 @@ export interface IOrderProps {
 export interface IOrderMatchProps extends RouteComponentProps<IOrderProps> {
 }
 
-export type PropsFromDispatch = {
+interface IPropsFromDispatch {
     readonly onClick: () => void;
 }
 
-export type PropsFromState = {
-    readonly orderItems: (IOrderItem & { unitPrice: number })[];
+interface IPropsFromState {
+    readonly orderItems: Array<IOrderItem & { unitPrice: number }>;
     readonly order?: IOrder;
 }
 
-type Props = IOrderProps & PropsFromDispatch & PropsFromState;
+type Props = IOrderProps & IPropsFromDispatch & IPropsFromState;
 
 const Order = (props: Props) => {
     const { onClick, id, orderItems, order } = props;
 
-    if (!order) return <div>
-        Order not found
+    if (!order) {
+        return <div>
+            Order not found
         <br />
-        <a href="?debug">Use mocked api?</a>
-    </div>;
+            <a href="?debug">Use mocked api?</a>
+        </div>;
+    }
 
     const { customerId } = order;
 
@@ -81,7 +83,7 @@ const Order = (props: Props) => {
 const mapStateToProps = (state: IState, ownProps: IOrderProps) => {
     const { id: orderId } = ownProps;
     // Todo use redux selector to get order by id
-    const order = state.orders.orders.find(o => o.id === orderId);
+    const order = state.orders.orders.find((o) => o.id === orderId);
 
     return {
         order,
@@ -94,22 +96,21 @@ const mapStateToProps = (state: IState, ownProps: IOrderProps) => {
                 p.push({ ...c, unitPrice: product.unitPrice });
             }
             return p;
-        }, [] as (IOrderItem & { unitPrice: number })[])
+        }, [] as Array<IOrderItem & { unitPrice: number }>),
     };
 };
 
 const mapDispatchToProps = (dipatch: ThunkDispatch<{}, {}, any>, ownProps: IOrderProps) => {
     return {
         onClick: () => {
-            dipatch(placeOrder(ownProps.id))
-        }
+            dipatch(placeOrder(ownProps.id));
+        },
     };
-}
+};
 
-
-const ConnectedOrder = connect<PropsFromState, PropsFromDispatch, IOrderProps, IState>(
+const ConnectedOrder = connect<IPropsFromState, IPropsFromDispatch, IOrderProps, IState>(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(Order);
 
 export default ConnectedOrder;

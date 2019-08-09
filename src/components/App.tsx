@@ -1,17 +1,17 @@
-import React, { useEffect, ReactNode } from 'react';
-import OrderList from './OrderList';
-import { IOrder } from '../interfaces/orders';
-import { ThunkDispatch } from 'redux-thunk';
-import { fetchOrders } from '../actions/orders';
-import { connect } from 'react-redux';
-import { IState } from '../interfaces/state';
+import React, { ReactNode, useEffect } from "react";
+import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { fetchOrders } from "../actions/orders";
+import { IOrder } from "../interfaces/orders";
+import { IState } from "../interfaces/state";
+import OrderList from "./OrderList";
 
-type PropsFromState = {
+interface IPropsFromState {
   orders: IOrder[];
   isLoading: boolean;
-};
+}
 
-type PropsFromDispatch = {
+interface IPropsFromDispatch {
   fetchOrders: () => void;
 }
 
@@ -19,15 +19,16 @@ export interface IAppProps {
   children: ReactNode;
 }
 
-type Props = PropsFromState & PropsFromDispatch & IAppProps;
+type Props = IPropsFromState & IPropsFromDispatch & IAppProps;
 
 const App = (props: Props) => {
-  const { orders, fetchOrders, children, isLoading } = props;
+  const { orders, fetchOrders: fetch, children, isLoading } = props;
 
-  if (!orders.length)
+  if (!orders.length) {
     useEffect(() => {
-      fetchOrders()
+      fetch();
     }, []);
+  }
 
   const appJSX = isLoading ? <>LOADING</> : children;
   return (
@@ -37,14 +38,14 @@ const App = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: IState): PropsFromState => {
+const mapStateToProps = (state: IState): IPropsFromState => {
   return {
     orders: state.orders.orders,
-    isLoading: state.orders.isLoading
-  }
+    isLoading: state.orders.isLoading,
+  };
 };
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): PropsFromDispatch => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): IPropsFromDispatch => {
   return {
     fetchOrders: () => dispatch(fetchOrders()),
   };

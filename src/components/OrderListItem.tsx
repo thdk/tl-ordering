@@ -1,17 +1,17 @@
-import * as React from 'react';
+import * as React from "react";
 
+import { connect } from "react-redux";
 import { IOrder } from "../interfaces/orders";
-import OrderLink from './links/OrderLink';
-import { IState } from '../interfaces/state';
-import { connect } from 'react-redux';
+import { IState } from "../interfaces/state";
+import OrderLink from "./links/OrderLink";
 
-export interface IOrderListItemProps {
+interface IOrderListItemProps {
     order: IOrder;
 }
 
-export type PropsFromState = { total: number };
+interface IPropsFromState { total: number; }
 
-type Props = IOrderListItemProps & PropsFromState;
+type Props = IOrderListItemProps & IPropsFromState;
 
 const OrderListItem = (props: Props) => {
     const { order: { id, customerId }, total } = props;
@@ -36,7 +36,7 @@ const mapStateToProps = (state: IState, ownProps: IOrderListItemProps) => {
 
     const total = state.orderItems.byOrderId[ownProps.order.id].reduce((p, c) => {
         const product = state.products.byId[c.productId];
-        if (!product) console.error("No product found for " + c.productId + ". Using '0' as price");
+        if (!product) { console.error("No product found for " + c.productId + ". Using '0' as price"); }
         p += (product ? product.unitPrice : 0) * c.quantity;
         return p;
     }, 0);
@@ -45,7 +45,7 @@ const mapStateToProps = (state: IState, ownProps: IOrderListItemProps) => {
 };
 
 const ConnectedOrderListItem = connect(
-    mapStateToProps
+    mapStateToProps,
 )(OrderListItem);
 
 export default ConnectedOrderListItem;

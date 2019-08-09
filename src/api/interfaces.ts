@@ -1,5 +1,5 @@
 interface IApiData {
-    [manyProps: string]: any
+    [manyProps: string]: any;
 }
 
 // "id": "2",
@@ -14,10 +14,10 @@ interface IApiData {
 // ],
 // "total": "24.95"
 export interface IApiOrder extends IApiData {
-    id: string,
+    id: string;
     items: IApiOrderItem[];
     total: string;
-};
+}
 
 // "product-id": "B102",
 // "quantity": "5",
@@ -28,7 +28,7 @@ export interface IApiOrderItem extends IApiData {
     total: string;
 }
 
-export interface IApiProduct extends IApiData {};
+export interface IApiProduct extends IApiData {}
 
 export interface IApiPlaceOrderResult extends IApiData {
     result: string;

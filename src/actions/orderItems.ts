@@ -20,14 +20,14 @@ export type IOrderItemAction = IAddOrderItemAction | IRemoveOrderItemAction;
 // action creators
 export const addOrderItem = (orderItem: IOrderItem, orderId: string): IAddOrderItemAction => {
     return {
+        payload: { item: orderItem, orderId },
         type: ADD_ORDER_ITEM,
-        payload: { item: orderItem, orderId }
-    }
+    };
 };
 
 export const removeOrderItem = (productId: string, orderId: string): IRemoveOrderItemAction => {
     return {
+        payload: { productId, orderId },
         type: REMOVE_ORDER_ITEM,
-        payload: { productId, orderId }
-    }
+    };
 };

@@ -1,28 +1,26 @@
-import React, { useEffect } from 'react'
-import { ThunkDispatch } from 'redux-thunk';
-import { connect } from 'react-redux'
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
 
-import { IOrder } from '../interfaces/orders';
-import { IState } from '../interfaces/state';
-import { fetchOrders } from '../actions/orders';
-import OrderListItem from './OrderListitem';
-import { OrderListItemHeader } from './OrderListItemHeader';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { fetchOrders } from "../actions/orders";
+import { IOrder } from "../interfaces/orders";
+import { IState } from "../interfaces/state";
+import OrderListItem from "./OrderListitem";
+import { OrderListItemHeader } from "./OrderListItemHeader";
 
-
-
-export interface PropsFromState {
+interface IPropsFromState {
     orders: IOrder[];
 }
 
-type Props = PropsFromState;
+type Props = IPropsFromState;
 const OrderList = (props: Props) => {
     const { orders } = props;
 
     const listJSX = orders.length
         ? <div className="list">
             <OrderListItemHeader></OrderListItemHeader>
-            {orders.map(order => <OrderListItem key={order.id} order={order}></OrderListItem>)}
+            {orders.map((order) => <OrderListItem key={order.id} order={order}></OrderListItem>)}
         </div>
         : <div>
             No orders found.
@@ -33,11 +31,10 @@ const OrderList = (props: Props) => {
     return listJSX;
 };
 
-const mapStateToProps = (state: IState): PropsFromState => {
+const mapStateToProps = (state: IState): IPropsFromState => {
     return {
-        orders: state.orders.orders
-    }
+        orders: state.orders.orders,
+    };
 };
-
 
 export default connect(mapStateToProps)(OrderList);

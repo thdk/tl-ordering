@@ -1,16 +1,16 @@
-import React, { useRef } from 'react'
-import { addOrderItem } from '../actions/orderItems';
-import { connect } from 'react-redux';
-import { IOrderItem } from '../interfaces/orders';
-import { Dispatch } from 'redux';
-import { IState } from '../interfaces/state';
-import { IProduct } from '../interfaces/products';
+import React, { useRef } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { addOrderItem } from "../actions/orderItems";
+import { IOrderItem } from "../interfaces/orders";
+import { IProduct } from "../interfaces/products";
+import { IState } from "../interfaces/state";
 
-export type PropsFromState = {
+export interface IPropsFromState {
     products: IProduct[];
-};
+}
 
-export type PropsFromDispatch = {
+export interface IPropsFromDispatch {
     readonly onAdd: (item: IOrderItem) => void;
 }
 
@@ -18,7 +18,7 @@ export interface IOrderItemAddProps {
     readonly orderId: string;
 }
 
-type Props = PropsFromState & PropsFromDispatch & IOrderItemAddProps;
+type Props = IPropsFromState & IPropsFromDispatch & IOrderItemAddProps;
 
 const OrderItemAdd = (props: Props) => {
     const { onAdd, products } = props;
@@ -33,19 +33,21 @@ const OrderItemAdd = (props: Props) => {
 
         // Todo: validate input
         if (productIdRef.current && quantityRef.current) {
-            onAdd({
-                productId: productIdRef.current.value,
-                quantity: +quantityRef.current.value,
-            });
+            if (productIdRef.current.value) {
+                onAdd({
+                    productId: productIdRef.current.value,
+                    quantity: +quantityRef.current.value,
+                });
 
-            productIdRef.current.value = "";
-            quantityRef.current.value = defaultQuantiy.toString();
+                productIdRef.current.value = "";
+                quantityRef.current.value = defaultQuantiy.toString();
+            }
         }
     };
     return (
         <form onSubmit={handleSubmit}>
             <label>Product id:</label><select ref={productIdRef}>
-                ${products.map(product => <option key={product.id} value={product.id}>{product.id}</option>)}
+                ${products.map((product) => <option key={product.id} value={product.id}>{product.id}</option>)}
             </select>
             <label>Quantity:</label><input type="number" min="0" ref={quantityRef} defaultValue={"1"}></input>
             <input type="submit" value="Add product" />
@@ -55,16 +57,16 @@ const OrderItemAdd = (props: Props) => {
 
 const mapStateToProps = (state: IState) => {
     return {
-        products: state.products.allIds.map(id => state.products.byId[id])
-    }
-}
+        products: state.products.allIds.map((id) => state.products.byId[id]),
+    };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: IOrderItemAddProps) => {
     return {
         onAdd: (item: IOrderItem) => {
-            dispatch(addOrderItem(item, ownProps.orderId))
-        }
-    }
+            dispatch(addOrderItem(item, ownProps.orderId));
+        },
+    };
 };
 
 const ConnectedOrderItemAdd = connect(

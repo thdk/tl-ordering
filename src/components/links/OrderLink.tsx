@@ -1,5 +1,5 @@
-import React, { HTMLProps } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { HTMLProps } from "react";
+import { NavLink } from "react-router-dom";
 
 export interface IOrderLinkProps extends HTMLProps<HTMLAnchorElement> {
     orderId: string;
@@ -12,8 +12,8 @@ const OrderLink = (props: IOrderLinkProps) => {
             exact
             to={`/orders/${orderId}`}
             activeStyle={{
-                textDecoration: 'none',
-                color: 'black'
+                textDecoration: "none",
+                color: "black",
             }}
         >
             {children}

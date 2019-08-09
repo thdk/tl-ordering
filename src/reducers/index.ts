@@ -1,13 +1,13 @@
-import { combineReducers } from 'redux'
-import { orders } from './orders';
-import { products } from './products';
-import { orderItems } from './orderItems';
-import { IState } from '../interfaces/state';
+import { combineReducers } from "redux";
+import { IState } from "../interfaces/state";
+import { orderItems } from "./orderItems";
+import { orders } from "./orders";
+import { products } from "./products";
 
 const orderingApp = combineReducers<IState>({
     orderItems,
     orders,
-    products
+    products,
 });
 
 export default orderingApp;

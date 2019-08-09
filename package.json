@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",
     "start": "npm run build && lite-server",
-    "server": "lite-server"
+    "server": "lite-server",
+    "tslint:fix": "tslint --fix --project . ",
+    "tslint": "tslint --project ."
   },
   "author": "",
   "license": "ISC",
@@ -30,6 +32,7 @@
     "rollup-plugin-commonjs": "^10.0.2",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-tslint": "^0.2.2",
     "rollup-plugin-typescript": "^1.0.1",
     "rollup-plugin-typescript2": "^0.21.0",
     "typescript": "^3.5.3"
