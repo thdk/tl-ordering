@@ -1,13 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
+import { IOrder } from "../../../interfaces/orders";
+import { IState } from "../../../interfaces/state";
 
-import { Link } from "react-router-dom";
-import { fetchOrders } from "../actions/orders";
-import { IOrder } from "../interfaces/orders";
-import { IState } from "../interfaces/state";
-import OrderListItem from "./OrderListitem";
-import { OrderListItemHeader } from "./OrderListItemHeader";
+import OrderListItem from "./Item/OrderListItem";
+import OrderListItemHeader from "./Item/OrderListItemHeader";
 
 interface IPropsFromState {
     orders: IOrder[];

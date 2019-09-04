@@ -5,7 +5,7 @@ export interface IOrderLinkProps extends HTMLProps<HTMLAnchorElement> {
     orderId: string;
 }
 
-const OrderLink = (props: IOrderLinkProps) => {
+export const OrderLink = (props: IOrderLinkProps) => {
     const { orderId, children } = props;
     return (
         <NavLink

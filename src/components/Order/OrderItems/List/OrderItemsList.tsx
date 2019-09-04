@@ -1,7 +1,7 @@
 import React from "react";
-import { IOrderItem } from "../interfaces/orders";
 
-import OrderItem from "./OrderItem";
+import { IOrderItem } from "../../../../interfaces/orders";
+import OrderItem from "./Item/OrderItem";
 
 const OrderItemList = (props: { orderId: string, orderItems: IOrderItem[] }) => {
     const { orderItems, orderId } = props;

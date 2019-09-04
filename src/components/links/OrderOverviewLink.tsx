@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 export interface IOrderOverviewLinkProps extends HTMLProps<HTMLAnchorElement> { }
 
-const OrderOverviewLink = (props: IOrderOverviewLinkProps) => {
+export const OrderOverviewLink = (props: IOrderOverviewLinkProps) => {
     const { children } = props;
     return (
         <NavLink
@@ -18,5 +18,3 @@ const OrderOverviewLink = (props: IOrderOverviewLinkProps) => {
         </NavLink>
     );
 };
-
-export default OrderOverviewLink;

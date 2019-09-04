@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { removeOrderItem } from "../actions/orderItems";
-import { IOrderItem } from "../interfaces/orders";
-import { IState } from "../interfaces/state";
+import { removeOrderItem } from "../../../../../actions/orderItems";
+import { IOrderItem } from "../../../../../interfaces/orders";
+import { IState } from "../../../../../interfaces/state";
 
 interface IOrderItemPropsFromState { unitPrice: number; }
 interface IDispatchFromProps { onDeleteOrderItem: (productId: string) => void; }

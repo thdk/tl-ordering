@@ -1,14 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { Dispatch } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { placeOrder, placeOrderRequest } from "../actions/orders";
-import { IOrder, IOrderItem } from "../interfaces/orders";
-import { IState } from "../interfaces/state";
-import OrderOverviewLink from "./links/OrderOverviewLink";
+
+import { IOrder, IOrderItem } from "../../../interfaces/orders";
 import OrderItemAdd from "./OrderItemAdd";
-import OrderItemList from "./OrderItemList";
+
+import { placeOrder } from "../../../actions/orders";
+import { IState } from "../../../interfaces/state";
+import { OrderOverviewLink } from "../../links/OrderOverviewLink";
+import OrderItems from "../OrderItems/List/OrderItemsList";
 
 export interface IOrderProps {
     id: string;
@@ -47,7 +48,7 @@ const Order = (props: Props) => {
 
     const listJSX = orderItems.length
         ? <>
-            <OrderItemList orderId={id} orderItems={orderItems} />
+            <OrderItems orderId={id} orderItems={orderItems} />
             Total: {total}
         </>
         : <div>This order contains no orders</div>;
