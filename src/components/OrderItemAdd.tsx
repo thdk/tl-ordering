@@ -42,6 +42,7 @@ const OrderItemAdd = (props: Props) => {
                 productIdRef.current.value = "";
                 quantityRef.current.value = defaultQuantiy.toString();
             }
+
         }
     };
     return (

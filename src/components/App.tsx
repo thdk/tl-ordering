@@ -4,7 +4,6 @@ import { ThunkDispatch } from "redux-thunk";
 import { fetchOrders } from "../actions/orders";
 import { IOrder } from "../interfaces/orders";
 import { IState } from "../interfaces/state";
-import OrderList from "./OrderList";
 
 interface IPropsFromState {
   orders: IOrder[];
