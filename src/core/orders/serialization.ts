@@ -1,9 +1,8 @@
-import { IApiOrder, IApiOrderItem } from "../../api/interfaces";
-import { IOrderData, IOrderItemData } from "../interfaces";
+import { IApiOrder, IOrder } from "./types";
 
-// TODO: should be IProductData
-import { IOrder, IOrderItem } from "../../interfaces/orders";
-import { IProduct } from "../../interfaces/products";
+import { IApiOrderItem, IOrderItem } from "../orderitems/types";
+
+import { IProduct } from "../products/types";
 
 export const serializeOrder = (order: IOrder, items: IOrderItem[], products: IProduct[]): IApiOrder => {
     const apiItems = serializeOrderItems(items, products);

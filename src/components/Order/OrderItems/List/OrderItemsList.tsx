@@ -1,6 +1,6 @@
 import React from "react";
 
-import { IOrderItem } from "../../../../interfaces/orders";
+import { IOrderItem } from "../../../../core/orderitems/types";
 import OrderItem from "./Item/OrderItem";
 
 const OrderItemList = (props: { orderId: string, orderItems: IOrderItem[] }) => {

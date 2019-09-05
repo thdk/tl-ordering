@@ -1,4 +1,4 @@
-import { IOrderItem } from "../interfaces/orders";
+import { IOrderItem } from "./types";
 
 // action types
 export const ADD_ORDER_ITEM = "ADD_ORDER_ITEM";

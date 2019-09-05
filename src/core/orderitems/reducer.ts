@@ -1,6 +1,8 @@
-import { IOrderItemAction } from "../actions/orderItems";
-import { IOrderAction } from "../actions/orders";
-import { IOrderItemDictionary, IOrderItemState } from "../interfaces/state";
+import {  IOrderItemDictionary, IOrderItemState } from "./types";
+
+import { IOrderItemAction } from "./actions";
+
+import { IOrderAction } from "../orders/actions";
 
 export function orderItems(state: IOrderItemState = { byOrderId: {} }, action: IOrderItemAction | IOrderAction) {
   switch (action.type) {

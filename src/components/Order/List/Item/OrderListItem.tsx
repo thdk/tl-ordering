@@ -1,8 +1,8 @@
 import * as React from "react";
 
 import { connect } from "react-redux";
-import { IOrder } from "../../../../interfaces/orders";
-import { IState } from "../../../../interfaces/state";
+import { IState } from "../../../../core/app/types";
+import { IOrder } from "../../../../core/orders/types";
 import OrderLink from "../../../links/OrderLink";
 
 interface IOrderListItemProps {

@@ -1,10 +1,11 @@
 import React, { useRef } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { addOrderItem } from "../../../actions/orderItems";
-import { IOrderItem } from "../../../interfaces/orders";
-import { IProduct } from "../../../interfaces/products";
-import { IState } from "../../../interfaces/state";
+
+import { IState } from "../../../core/app/types";
+import { addOrderItem } from "../../../core/orderitems/actions";
+import { IOrderItem } from "../../../core/orderitems/types";
+import { IProduct } from "../../../core/products/types";
 
 export interface IPropsFromState {
     products: IProduct[];

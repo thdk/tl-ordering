@@ -1,5 +1,14 @@
-import { IApiOrder, IApiOrderItem, IApiPlaceOrderResult } from "../../api/interfaces";
-import { IOrderData, IOrderItemData, IPlaceOrderData } from "../interfaces";
+import {
+    IApiOrderItem,
+    IOrderItemData,
+} from "../orderitems/types";
+
+import {
+    IApiOrder,
+    IApiPlaceOrderResult,
+    IOrderData,
+    IPlaceOrderData,
+} from "./types";
 
 export const convertOrders = (apiData: IApiOrder[]): IOrderData[] =>
     apiData.map(convertOrder);

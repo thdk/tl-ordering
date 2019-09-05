@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { ThunkDispatch } from "redux-thunk";
 
-import { IOrder, IOrderItem } from "../../../interfaces/orders";
 import OrderItemAdd from "./OrderItemAdd";
 
-import { placeOrder } from "../../../actions/orders";
-import { IState } from "../../../interfaces/state";
+import { IState } from "../../../core/app/types";
+import { IOrderItem } from "../../../core/orderitems/types";
+import { placeOrder } from "../../../core/orders/actions";
+import { IOrder } from "../../../core/orders/types";
 import { OrderOverviewLink } from "../../links/OrderOverviewLink";
 import OrderItems from "../OrderItems/List/OrderItemsList";
 

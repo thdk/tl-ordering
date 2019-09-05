@@ -1,4 +1,4 @@
+import { IOrderAction } from "../core/orders/actions";
 import { IOrderItemAction } from "./orderItems";
-import { IOrderAction } from "./orders";
 
 export type AnyAction = IOrderAction | IOrderItemAction;

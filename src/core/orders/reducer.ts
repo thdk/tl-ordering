@@ -1,6 +1,5 @@
-import { IOrderAction } from "../actions/orders";
-import { IOrder } from "../interfaces/orders";
-import { IOrderState } from "../interfaces/state";
+import { IOrderAction } from "./actions";
+import { IOrderState } from "./types";
 
 export function orders(state: IOrderState = { orders: [], isLoading: false }, action: IOrderAction) {
     switch (action.type) {

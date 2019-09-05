@@ -1,4 +1,4 @@
-import { IState } from "../interfaces/state";
+import { IState } from "../core/app/types";
 
 export const initialState: Partial<IState> = {
     products: {

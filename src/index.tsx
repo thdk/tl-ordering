@@ -6,11 +6,10 @@ import { applyMiddleware, createStore } from "redux";
 import logger from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 
-import App from "./components/App";
-import { IOrderMatchProps } from "./components/Order";
-import Order from "./components/Order";
-import OrderList from "./components/OrderList";
-import rootReducer from "./reducers";
+import App from "./components/App/App";
+import { OrderDetail, OrderList } from "./components/Order";
+import { IOrderMatchProps } from "./components/Order/Detail/OrderDetail";
+import rootReducer from "./core/app/reducer";
 import { mockApi } from "./tests/apimocks";
 import { initialState } from "./tests/initialState";
 
@@ -39,7 +38,7 @@ render(
     <Router>
       <Route exact path="/" render={() => (<App><OrderList></OrderList></App>)} />
       <Route path="/orders/:id" render={({ match }: IOrderMatchProps) => (
-        <App><Order id={match.params.id} /></App>)} />
+        <App><OrderDetail id={match.params.id} /></App>)} />
     </Router>
   </Provider>,
   document.getElementById("root"),

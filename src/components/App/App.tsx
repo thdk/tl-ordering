@@ -1,9 +1,10 @@
 import React, { ReactNode, useEffect } from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { fetchOrders } from "../../actions/orders";
-import { IOrder } from "../../interfaces/orders";
-import { IState } from "../../interfaces/state";
+
+import { IState } from "../../core/app/types";
+import { fetchOrders } from "../../core/orders/actions";
+import { IOrder } from "../../core/orders/types";
 
 interface IPropsFromState {
   orders: IOrder[];

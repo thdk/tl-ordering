@@ -1,8 +1,8 @@
 import { Dispatch } from "redux";
-import { convertOrders, convertPlaceOrderResult } from "../client/deserialization/orders";
-import { IOrderData, IPlaceOrderData as IPlaceOrderResultData } from "../client/interfaces";
-import { serializeOrder } from "../client/serialization/orders";
-import { IState } from "../interfaces/state";
+import { IState } from "../app/types";
+import { convertOrders, convertPlaceOrderResult } from "./deserialization";
+import { serializeOrder } from "./serialization";
+import { IOrderData, IPlaceOrderData } from "./types";
 
 // action types
 
@@ -22,7 +22,7 @@ export interface IPlaceOrderAction {
 
 export interface IPlaceOrderSuccessAction {
     type: typeof PLACE_ORDER_SUCCESS;
-    payload: IPlaceOrderResultData;
+    payload: IPlaceOrderData;
 }
 
 export interface IPlaceOrderFailureAction {
@@ -99,7 +99,7 @@ export const placeOrderRequest = () => ({
     type: PLACE_ORDER_REQUEST,
 });
 
-export const placeOrderSuccess = (result: IPlaceOrderResultData): IPlaceOrderSuccessAction => ({
+export const placeOrderSuccess = (result: IPlaceOrderData): IPlaceOrderSuccessAction => ({
     type: PLACE_ORDER_SUCCESS,
     payload: result,
 });

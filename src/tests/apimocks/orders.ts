@@ -1,4 +1,4 @@
-import { IApiOrder, IApiPlaceOrderResult } from "../../api/interfaces";
+import { IApiOrder, IApiPlaceOrderResult } from "../../core/orders/types";
 import { IMockedFetch } from "../fetch";
 
 export const ordersTestData = [
