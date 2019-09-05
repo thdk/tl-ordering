@@ -10,7 +10,7 @@ import { IOrderItem } from "../../../core/orderitems/types";
 import { placeOrder } from "../../../core/orders/actions";
 import { IOrder } from "../../../core/orders/types";
 import { OrderOverviewLink } from "../../links/OrderOverviewLink";
-import OrderItems from "../OrderItems/List/OrderItemsList";
+import { OrderItems } from "../../OrderItem";
 
 export interface IOrderProps {
     id: string;
