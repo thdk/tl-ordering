@@ -17,8 +17,8 @@ export const serializeOrder = (order: IOrder, items: IOrderItem[], products: IPr
 };
 
 export const serializeOrderItems = (orderItems: IOrderItem[], products: IProduct[]): IApiOrderItem[] =>
-    orderItems.map((item) => {
-        const product = products.find((p) => p.id === item.productId);
+    orderItems.map(item => {
+        const product = products.find(p => p.id === item.productId);
         if (!product) { throw new Error(`Can't find product for ${item.productId}`); }
 
         return serializeOrderItem(item, product);

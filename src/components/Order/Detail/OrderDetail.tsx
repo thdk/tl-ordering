@@ -86,7 +86,7 @@ const Order = (props: Props) => {
 const mapStateToProps = (state: IState, ownProps: IOrderProps) => {
     const { id: orderId } = ownProps;
     // Todo use redux selector to get order by id
-    const order = getVisibleOrders(state.orders).find((o) => o.id === orderId);
+    const order = getVisibleOrders(state.orders).find(o => o.id === orderId);
 
     return {
         order,

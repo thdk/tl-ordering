@@ -18,7 +18,7 @@ const OrderList = (props: Props) => {
     const listJSX = orders.length
         ? <div className="list">
             <OrderListItemHeader></OrderListItemHeader>
-            {orders.map((order) => <OrderListItem key={order.id} order={order}></OrderListItem>)}
+            {orders.map(order => <OrderListItem key={order.id} order={order}></OrderListItem>)}
         </div>
         : <div>
             No orders found.

@@ -49,7 +49,7 @@ const OrderItemAdd = (props: Props) => {
     return (
         <form onSubmit={handleSubmit}>
             <label>Product id:</label><select ref={productIdRef}>
-                ${products.map((product) => <option key={product.id} value={product.id}>{product.id}</option>)}
+                ${products.map(product => <option key={product.id} value={product.id}>{product.id}</option>)}
             </select>
             <label>Quantity:</label><input type="number" min="0" ref={quantityRef} defaultValue={"1"}></input>
             <input type="submit" value="Add product" />
@@ -59,7 +59,7 @@ const OrderItemAdd = (props: Props) => {
 
 const mapStateToProps = (state: IState) => {
     return {
-        products: state.products.allIds.map((id) => state.products.byId[id]),
+        products: state.products.allIds.map(id => state.products.byId[id]),
     };
 };
 

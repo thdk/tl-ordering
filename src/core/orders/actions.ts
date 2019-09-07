@@ -79,14 +79,14 @@ export function fetchOrders() {
     return (dispatch: Dispatch) => {
         dispatch(fetchOrdersRequest());
         return fetch(`${process.env.apiUrl}/orders`)
-            .then((res) => {
+            .then(res => {
                 return res.json()
                     .then(convertOrders)
-                    .then((body) => {
+                    .then(body => {
                         dispatch(fetchOrdersSuccess(body));
                     });
             })
-            .catch((ex) => {
+            .catch(ex => {
                 console.error(ex);
                 dispatch(fetchOrdersFailure(ex));
             });
@@ -116,7 +116,7 @@ export const placeOrder = (id: string) => {
 
         const state = getState();
         const orderItems = state.orderItems.byOrderId[id];
-        const products = state.products.allIds.map((productId) => state.products.byId[productId]);
+        const products = state.products.allIds.map(productId => state.products.byId[productId]);
         const order = getOrder(state.orders, id);
 
         if (!order) { throw new Error(`Can't find order with id ${id}.`); }
@@ -128,15 +128,15 @@ export const placeOrder = (id: string) => {
             },
             body: JSON.stringify(serializeOrder(order, orderItems, products)),
         })
-            .then((res) => {
+            .then(res => {
                 console.log("Place order result");
                 return res.json()
-                    .then(convertPlaceOrderResult, (ex) => { throw new Error(ex); })
-                    .then((body) => {
+                    .then(convertPlaceOrderResult, ex => { throw new Error(ex); })
+                    .then(body => {
                         dispatch(placeOrderSuccess(body));
                     });
             })
-            .catch((ex) => {
+            .catch(ex => {
                 console.error(ex);
                 dispatch(placeOrderFailure());
             });

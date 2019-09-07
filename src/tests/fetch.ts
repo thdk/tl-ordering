@@ -3,7 +3,7 @@ export interface IFetchRoute<T> { match: Match; response: T; }
 
 const findRoute = <T>(mocks: Array<IFetchRoute<T>>, input: RequestInfo) => {
     // TODO: add support for function, regexp
-    return mocks.find((m) => m.match === input);
+    return mocks.find(m => m.match === input);
 };
 
 export interface IMockedFetch {
@@ -23,13 +23,13 @@ export const mockFetch = (mocks: Array<IFetchRoute<any>> = []): IMockedFetch => 
     window.fetch = (input: RequestInfo, init?: RequestInit): Promise<Response> => {
         const route = findRoute(mocks, input);
         if (route) {
-            return new Promise<any>((resolve) => {
+            return new Promise<any>(resolve => {
                 if (typeof route.response === "function") {
                     resolve(new Response(JSON.stringify(route.response(init))));
                 }
 
                 resolve(new Response(JSON.stringify(route.response)));
-            }).then((result) => {
+            }).then(result => {
                 return result.clone().json().then((data: any) => {
                     const style = "color: green; display: block; font-weight:bold;";
                     console.log("%cFetch is mocked!", style);

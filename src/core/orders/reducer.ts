@@ -35,7 +35,7 @@ export function visibleIds(
     action: IOrderAction) {
     switch (action.type) {
         case "FETCH_ORDERS_SUCCESS": {
-            return [...state, ...action.payload.map((o) => o.id)];
+            return [...state, ...action.payload.map(o => o.id)];
         }
         case "PLACE_ORDER_SUCCESS": {
             const { success, order, reason } = action.payload;
@@ -77,5 +77,5 @@ export function getOrder(state: IOrderState, id: string) {
 }
 
 export function getVisibleOrders(state: IOrderState) {
-    return state.visibleIds.map((id) => getOrder(state, id));
+    return state.visibleIds.map(id => getOrder(state, id));
 }

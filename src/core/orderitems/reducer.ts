@@ -20,13 +20,13 @@ export function orderItems(state: IOrderItemState = { byOrderId: {} }, action: I
 
       // Does product exist already for this order?
       const itemsForOrder = state.byOrderId[orderId];
-      const existingProduct = itemsForOrder.find((product) => product.productId === item.productId);
+      const existingProduct = itemsForOrder.find(product => product.productId === item.productId);
 
       const newItemsForOrder = existingProduct
         // Product already in order...
         // Find existing product in orderitem list for order and update quantity
         ? itemsForOrder
-          .map((i) => i.productId === item.productId
+          .map(i => i.productId === item.productId
             ? { ...i, quantity: item.quantity + i.quantity }
             : i)
         // Product not yet in order...
@@ -47,7 +47,7 @@ export function orderItems(state: IOrderItemState = { byOrderId: {} }, action: I
         ...state,
         byOrderId: {
           ...state.byOrderId,
-          [orderId]: state.byOrderId[orderId].filter((oi) => oi.productId !== productId),
+          [orderId]: state.byOrderId[orderId].filter(oi => oi.productId !== productId),
         },
       };
     }

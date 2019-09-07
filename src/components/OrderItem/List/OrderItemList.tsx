@@ -7,7 +7,7 @@ const OrderItemList = (props: { orderId: string, orderItems: IOrderItem[] }) => 
     const { orderItems, orderId } = props;
     return (
         <ul>
-            {orderItems.map((orderItem) => {
+            {orderItems.map(orderItem => {
                 const { productId } = orderItem;
                 return <OrderItem orderId={orderId} key={productId} {...orderItem} />;
             })}
