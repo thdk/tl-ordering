@@ -1,6 +1,8 @@
 import { Dispatch } from "redux";
+
 import { IState } from "../app/types";
 import { convertOrders, convertPlaceOrderResult } from "./deserialization";
+import { getOrder } from "./reducer";
 import { serializeOrder } from "./serialization";
 import { IOrderData, IPlaceOrderData } from "./types";
 
@@ -115,7 +117,7 @@ export const placeOrder = (id: string) => {
         const state = getState();
         const orderItems = state.orderItems.byOrderId[id];
         const products = state.products.allIds.map((productId) => state.products.byId[productId]);
-        const order = state.orders.orders.find((o) => o.id === id);
+        const order = getOrder(state.orders, id);
 
         if (!order) { throw new Error(`Can't find order with id ${id}.`); }
 

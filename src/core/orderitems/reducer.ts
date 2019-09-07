@@ -10,7 +10,7 @@ export function orderItems(state: IOrderItemState = { byOrderId: {} }, action: I
       return {
         ...state,
         byOrderId: action.payload.reduce((p, c) => {
-          p[c.id] = [...(p[c.id] || []), ...c.items];
+          p[c.id] = c.items;
           return p;
         }, {} as IOrderItemDictionary),
       };

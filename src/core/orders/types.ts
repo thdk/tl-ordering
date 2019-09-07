@@ -1,6 +1,12 @@
 import { IApiOrderItem, IOrderItemData } from "../orderitems/types";
 
-export interface IOrderState { orders: IOrder[]; isLoading: boolean; }
+export interface IOrderState {
+    byId: IOrderDictionary;
+    visibleIds: string[];
+    isLoading: boolean;
+}
+
+export interface IOrderDictionary { [orderId: string]: IOrder; }
 
 export interface IOrder {
     readonly id: string;

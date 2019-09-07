@@ -8,6 +8,7 @@ import OrderItemAdd from "./OrderItemAdd";
 import { IState } from "../../../core/app/types";
 import { IOrderItem } from "../../../core/orderitems/types";
 import { placeOrder } from "../../../core/orders/actions";
+import { getVisibleOrders } from "../../../core/orders/reducer";
 import { IOrder } from "../../../core/orders/types";
 import { OrderOverviewLink } from "../../links/OrderOverviewLink";
 import { OrderItems } from "../../OrderItem";
@@ -85,7 +86,7 @@ const Order = (props: Props) => {
 const mapStateToProps = (state: IState, ownProps: IOrderProps) => {
     const { id: orderId } = ownProps;
     // Todo use redux selector to get order by id
-    const order = state.orders.orders.find((o) => o.id === orderId);
+    const order = getVisibleOrders(state.orders).find((o) => o.id === orderId);
 
     return {
         order,

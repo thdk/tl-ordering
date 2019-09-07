@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { IState } from "../../../core/app/types";
+import { getVisibleOrders } from "../../../core/orders/reducer";
 import { IOrder } from "../../../core/orders/types";
 import OrderListItem from "./Item/OrderListItem";
 import OrderListItemHeader from "./Item/OrderListItemHeader";
@@ -30,7 +31,7 @@ const OrderList = (props: Props) => {
 
 const mapStateToProps = (state: IState): IPropsFromState => {
     return {
-        orders: state.orders.orders,
+        orders: getVisibleOrders(state.orders),
     };
 };
 
