@@ -117,7 +117,7 @@ export const placeOrder = (id: string) => {
         const state = getState();
         const orderItems = state.orderItems.byOrderId[id];
         const products = state.products.allIds.map(productId => state.products.byId[productId]);
-        const order = getOrder(state.orders, id);
+        const order = getOrder(state, id);
 
         if (!order) { throw new Error(`Can't find order with id ${id}.`); }
 

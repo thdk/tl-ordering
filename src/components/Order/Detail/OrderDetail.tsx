@@ -1,20 +1,21 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { ThunkDispatch } from "redux-thunk";
 
 import OrderItemAdd from "./OrderItemAdd";
 
 import { IState } from "../../../core/app/types";
-import { IOrderItem } from "../../../core/orderitems/types";
+import { getOrderItems } from "../../../core/orderItems/reducer";
+import { IOrderItem, IOrderItemWithPrice } from "../../../core/orderitems/types";
 import { placeOrder } from "../../../core/orders/actions";
-import { getVisibleOrders } from "../../../core/orders/reducer";
+import { getOrder } from "../../../core/orders/reducer";
 import { IOrder } from "../../../core/orders/types";
 import { OrderOverviewLink } from "../../links/OrderOverviewLink";
-import { OrderItems } from "../../OrderItem";
+import { OrderItemList } from "../../OrderItem";
 
 export interface IOrderProps {
-    id: string;
+    orderId: string;
 }
 
 export interface IOrderMatchProps extends RouteComponentProps<IOrderProps> {
@@ -24,18 +25,20 @@ interface IPropsFromDispatch {
     readonly onClick: () => void;
 }
 
-interface IPropsFromState {
-    readonly orderItems: Array<IOrderItem & { unitPrice: number }>;
-    readonly order?: IOrder;
-}
+type Props = IOrderProps & IPropsFromDispatch;
 
-type Props = IOrderProps & IPropsFromDispatch & IPropsFromState;
+export const OrderDetail = (props: Props) => {
+    const { onClick, orderId } = props;
 
-const Order = (props: Props) => {
-    const { onClick, id, orderItems, order } = props;
+    const order = useSelector<IState, IOrder>(
+        state => getOrder(state, orderId),
+    );
+    const orderItems = useSelector<IState, IOrderItemWithPrice[]>(
+        state => getOrderItems(state, orderId),
+    );
 
     if (!order) {
-        return <div>
+        return <div className="error">
             Order not found
         <br />
             <a href="?debug">Use mocked api?</a>
@@ -44,21 +47,24 @@ const Order = (props: Props) => {
 
     const { customerId } = order;
 
-    const total = orderItems.reduce((p, c) => {
-        return p += c.quantity * c.unitPrice;
-    }, 0).toFixed(2);
-
     const listJSX = orderItems.length
         ? <>
-            <OrderItems orderId={id} orderItems={orderItems} />
-            Total: {total}
+            <OrderItemList orderId={orderId} orderItems={orderItems} />
+            <div className="order-detail-total">
+                <span className="order-detail-total-label">
+                    Total:
+                </span>
+                <span className="order-detail-total-value">
+                    {orderItems.reduce((p, c) => p += c.unitPrice, 0)}
+                </span>
+            </div>
         </>
-        : <div>This order contains no orders</div>;
+        : <div className="order-detail--empty">This order contains no order items</div>;
 
     return (
         <>
-            <div>
-                Order detail page for order <span style={{ fontWeight: "bold" }}>{id}</span>
+            <div className="order-detail">
+                Order detail page for order <span style={{ fontWeight: "bold" }}>{orderId}</span>
                 <hr />
                 <br />
                 Customer: {customerId}
@@ -68,7 +74,7 @@ const Order = (props: Props) => {
             <br />
             <div>
                 Add more products to this order:
-                <OrderItemAdd orderId={id}></OrderItemAdd>
+                <OrderItemAdd orderId={orderId}></OrderItemAdd>
             </div>
             <br />
             <div>
@@ -83,37 +89,17 @@ const Order = (props: Props) => {
     );
 };
 
-const mapStateToProps = (state: IState, ownProps: IOrderProps) => {
-    const { id: orderId } = ownProps;
-    // Todo use redux selector to get order by id
-    const order = getVisibleOrders(state.orders).find(o => o.id === orderId);
-
-    return {
-        order,
-        // Todo: use selector to get orderitems by order with unitprice
-        orderItems: (state.orderItems.byOrderId[orderId] || []).reduce((p, c) => {
-            const product = state.products.byId[c.productId];
-            if (!product) {
-                console.error(`No product found for ${c.productId}. Product removed from order item list.`);
-            } else {
-                p.push({ ...c, unitPrice: product.unitPrice });
-            }
-            return p;
-        }, [] as Array<IOrderItem & { unitPrice: number }>),
-    };
-};
-
 const mapDispatchToProps = (dipatch: ThunkDispatch<{}, {}, any>, ownProps: IOrderProps) => {
     return {
         onClick: () => {
-            dipatch(placeOrder(ownProps.id));
+            dipatch(placeOrder(ownProps.orderId));
         },
     };
 };
 
-const ConnectedOrder = connect<IPropsFromState, IPropsFromDispatch, IOrderProps, IState>(
-    mapStateToProps,
+const ConnectedOrderDetail = connect(
+    null,
     mapDispatchToProps,
-)(Order);
+)(OrderDetail);
 
-export default ConnectedOrder;
+export default ConnectedOrderDetail;

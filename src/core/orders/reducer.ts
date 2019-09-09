@@ -1,7 +1,8 @@
 import { combineReducers } from "redux";
 
+import { IState } from "../app/types";
 import { IOrderAction } from "./actions";
-import { IOrderDictionary, IOrderState } from "./types";
+import { IOrderDictionary } from "./types";
 
 export function byId(
     state: IOrderDictionary = {},
@@ -72,10 +73,10 @@ export default combineReducers({
     isLoading,
 });
 
-export function getOrder(state: IOrderState, id: string) {
-    return state.byId[id];
+export function getOrder(state: IState, id: string) {
+    return state.orders.byId[id];
 }
 
-export function getVisibleOrders(state: IOrderState) {
-    return state.visibleIds.map(id => getOrder(state, id));
+export function getVisibleOrders(state: IState) {
+    return state.orders.visibleIds.map(id => getOrder(state, id));
 }
