@@ -22,9 +22,17 @@ Array [
   </div>,
   <ul>
     <li>
-      p1
-      : 
-      7
+      <span
+        className="orderitem-product-description"
+      >
+        some product
+      </span>
+      :
+      <span
+        className="orderitem-quantity"
+      >
+        7
+      </span>
        x $
       10.99
        = $
@@ -131,9 +139,17 @@ Array [
   </div>,
   <ul>
     <li>
-      p1
-      : 
-      3
+      <span
+        className="orderitem-product-description"
+      >
+        some product
+      </span>
+      :
+      <span
+        className="orderitem-quantity"
+      >
+        3
+      </span>
        x $
       10.99
        = $

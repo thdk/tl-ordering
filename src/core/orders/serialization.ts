@@ -27,8 +27,8 @@ export const serializeOrderItems = (orderItems: IOrderItem[], products: IProduct
 export const serializeOrderItem = (orderItem: IOrderItem, product: IProduct): IApiOrderItem => {
     const apiOrderItem = {} as IApiOrderItem;
     apiOrderItem.quantity = orderItem.quantity.toString();
-    apiOrderItem.total = (product.unitPrice * orderItem.quantity).toFixed(2);
+    apiOrderItem.total = (product.price * orderItem.quantity).toFixed(2);
     apiOrderItem["product-id"] = orderItem.productId;
-    apiOrderItem["unit-price"] = product.unitPrice.toFixed(2);
+    apiOrderItem["unit-price"] = product.price.toFixed(2);
     return apiOrderItem;
 };

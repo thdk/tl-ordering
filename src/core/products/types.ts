@@ -1,16 +1,38 @@
 export interface IProductDictionary { [productId: string]: IProduct; }
 
-export interface IProductState { byId: IProductDictionary; allIds: string[]; }
+export interface IProductState {
+    byId: IProductDictionary;
+    allIds: string[];
+    isLoading: boolean;
+}
+
+export enum ProductCategory {
+    "unknown" = 0,
+    "tools" = 1,
+    "electronics" = 2,
+}
 
 export interface IProduct {
-    id: string;
-    unitPrice: number;
+    readonly id: string;
+    readonly description: string;
+    readonly category: ProductCategory;
+    readonly price: number;
+}
+
+// Types for deserialized api data
+
+export interface IProductData {
+    readonly id: string;
+    readonly description: string;
+    readonly category: ProductCategory;
+    readonly price: number;
 }
 
 // Types representing data from/for API
 
-interface IApiData {
-    [manyProps: string]: any;
+export interface IApiProduct {
+    readonly id: string;
+    readonly description: string;
+    readonly category: string;
+    readonly price: string;
 }
-
-export interface IApiProduct extends IApiData {}

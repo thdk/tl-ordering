@@ -31,7 +31,7 @@ const OrderList = (props: Props) => {
 
 const mapStateToProps = (state: IState): IPropsFromState => {
     return {
-        orders: getVisibleOrders(state.orders),
+        orders: getVisibleOrders(state),
     };
 };
 

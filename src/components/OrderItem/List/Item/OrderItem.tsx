@@ -1,26 +1,36 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 
 import { IState } from "../../../../core/app/types";
 import { removeOrderItem } from "../../../../core/orderitems/actions";
 import { IOrderItem } from "../../../../core/orderitems/types";
+import { getProduct } from "../../../../core/products/reducer";
+import { IProduct } from "../../../../core/products/types";
 
-interface IOrderItemPropsFromState { unitPrice: number; }
 interface IDispatchFromProps { onDeleteOrderItem: (productId: string) => void; }
 export interface IOrderItemProps extends IOrderItem {
     orderId: string;
 }
 
-type Props = IOrderItemPropsFromState & IDispatchFromProps & IOrderItemProps;
+type Props = IDispatchFromProps & IOrderItemProps;
 
 const OrderItem = (props: Props) => {
-    const { onDeleteOrderItem, productId, quantity, unitPrice } = props;
+    const { onDeleteOrderItem, productId, quantity } = props;
 
-    const total = (quantity * unitPrice).toFixed(2);
+    const product = useSelector<IState, IProduct>(state => getProduct(state, productId));
+
+    if (!product) { return null; }
+
+    const { description, price } = product;
     return (
         <li>
-            {productId}: {quantity} x ${unitPrice} = ${total}
+            <span className="orderitem-product-description">
+                {description}
+            </span>:
+            <span className="orderitem-quantity">
+                {quantity}
+            </span> x ${price.toFixed(2)} = ${(price * quantity).toFixed(2)}
             <input type="button" value="x" onClick={() => onDeleteOrderItem(productId)} />
         </li>
     );
@@ -34,15 +44,8 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: IOrderItemProps) => {
     };
 };
 
-const mapStateToProps = (state: IState, ownProps: IOrderItemProps) => {
-    return {
-        unitPrice: state.products.byId[ownProps.productId].unitPrice,
-    };
-};
-
-const ConnectedOrderItem = connect
-    <IOrderItemPropsFromState, IDispatchFromProps, IOrderItemProps, IState>(
-        mapStateToProps,
+const ConnectedOrderItem = connect(
+        null,
         mapDispatchToProps,
     )(OrderItem);
 

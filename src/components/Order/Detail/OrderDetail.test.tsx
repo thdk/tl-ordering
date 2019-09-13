@@ -5,7 +5,8 @@ import renderer from "react-test-renderer";
 import configureStore, { MockStoreEnhanced } from "redux-mock-store";
 
 import { IState } from "../../../core/app/types";
-import MyConnectedComponent from "./OrderDetail";
+import { ProductCategory } from "../../../core/products/types";
+import ConnectedOrderDetail from "./OrderDetail";
 
 const mockStore = configureStore<IState>();
 
@@ -52,11 +53,14 @@ const initialState: Pick<IState, "orderItems" | "orders" | "products"> = {
    products: {
       byId: {
          p1: {
-            unitPrice: 10.99,
+            price: 10.99,
+            description: "some product",
+            category: ProductCategory.tools,
             id: "p1",
          },
       },
       allIds: ["p1"],
+      isLoading: false,
    },
 };
 
@@ -74,7 +78,7 @@ describe("OrderDetail rendering for a given state from redux store:", () => {
          component = renderer.create(
             <Provider store={store}>
                <Router>
-                  <MyConnectedComponent orderId="o2" />
+                  <ConnectedOrderDetail orderId="o2" />
                </Router>
             </Provider>,
          );
@@ -98,7 +102,7 @@ describe("OrderDetail rendering for a given state from redux store:", () => {
          component = renderer.create(
             <Provider store={store}>
                <Router>
-                  <MyConnectedComponent orderId="o3" />
+                  <ConnectedOrderDetail orderId="o3" />
                </Router>
             </Provider>);
       });
@@ -119,7 +123,7 @@ describe("OrderDetail rendering for a given state from redux store:", () => {
          component = renderer.create(
             <Provider store={store}>
                <Router>
-                  <MyConnectedComponent orderId="o1" />
+                  <ConnectedOrderDetail orderId="o1" />
                </Router>
             </Provider>);
       });

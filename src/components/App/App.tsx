@@ -1,35 +1,29 @@
 import React, { ReactNode, useEffect } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 
+import { getIsLoading } from "../../core/app/reducer";
 import { IState } from "../../core/app/types";
 import { fetchOrders } from "../../core/orders/actions";
 import { getVisibleOrders } from "../../core/orders/reducer";
-import { IOrder } from "../../core/orders/types";
-
-interface IPropsFromState {
-  orders: IOrder[];
-  isLoading: boolean;
-}
-
-interface IPropsFromDispatch {
-  fetchOrders: () => void;
-}
+import { fetchProducts } from "../../core/products/actions";
 
 export interface IAppProps {
   children: ReactNode;
 }
 
-type Props = IPropsFromState & IPropsFromDispatch & IAppProps;
+type Props = IAppProps;
 
-const App = (props: Props) => {
-  const { orders, fetchOrders: fetch, children, isLoading } = props;
+export const App = (props: Props) => {
+  const { children } = props;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!orders.length) {
-      fetch();
-    }
+    dispatch(fetchProducts());
+    dispatch(fetchOrders());
   }, []);
+
+  const isLoading = useSelector((state: IState) => getIsLoading(state));
 
   const appJSX = isLoading ? <>LOADING</> : children;
   return (
@@ -38,18 +32,3 @@ const App = (props: Props) => {
     </div>
   );
 };
-
-const mapStateToProps = (state: IState): IPropsFromState => {
-  return {
-    orders: getVisibleOrders(state),
-    isLoading: state.orders.isLoading,
-  };
-};
-
-const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): IPropsFromDispatch => {
-  return {
-    fetchOrders: () => dispatch(fetchOrders()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);

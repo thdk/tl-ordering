@@ -37,7 +37,7 @@ const mapStateToProps = (state: IState, ownProps: IOrderListItemProps) => {
     const total = state.orderItems.byOrderId[ownProps.order.id].reduce((p, c) => {
         const product = state.products.byId[c.productId];
         if (!product) { console.error("No product found for " + c.productId + ". Using '0' as price"); }
-        p += (product ? product.unitPrice : 0) * c.quantity;
+        p += (product ? product.price : 0) * c.quantity;
         return p;
     }, 0);
 

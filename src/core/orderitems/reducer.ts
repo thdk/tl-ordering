@@ -1,12 +1,12 @@
 import { IOrderItemDictionary, IOrderItemState, IOrderItemWithPrice } from "./types";
 
-import { IOrderItemAction } from "./actions";
+import { OrderItemAction } from "./actions";
 
 import { IState } from "../app/types";
 import { IOrderAction } from "../orders/actions";
 import { getProductPrice } from "../products/reducer";
 
-export function orderItems(state: IOrderItemState = { byOrderId: {} }, action: IOrderItemAction | IOrderAction) {
+export function orderItems(state: IOrderItemState = { byOrderId: {} }, action: OrderItemAction | IOrderAction) {
   switch (action.type) {
     case "FETCH_ORDERS_SUCCESS": {
       return {
@@ -59,8 +59,12 @@ export function orderItems(state: IOrderItemState = { byOrderId: {} }, action: I
 }
 
 export function getOrderItems(state: IState, orderId: string): IOrderItemWithPrice[] {
-  return state.orderItems.byOrderId[orderId]
-    .reduce((items, orderItem) => {
+  const itemsForOrder = state.orderItems.byOrderId[orderId];
+  if (!itemsForOrder) {
+    console.log("No items");
+  }
+
+  return (itemsForOrder || []).reduce((items, orderItem) => {
       const productPrice = getProductPrice(state, orderItem.productId);
 
       // filter out order items for invalid products

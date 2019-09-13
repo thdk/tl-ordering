@@ -36,7 +36,7 @@ export function visibleIds(
     action: IOrderAction) {
     switch (action.type) {
         case "FETCH_ORDERS_SUCCESS": {
-            return [...state, ...action.payload.map(o => o.id)];
+            return action.payload.map(o => o.id);
         }
         case "PLACE_ORDER_SUCCESS": {
             const { success, order, reason } = action.payload;
@@ -55,10 +55,10 @@ export function visibleIds(
     }
 }
 
-export function isLoading(_: boolean = false, action: IOrderAction) {
+export function isLoading(_: boolean = true, action: IOrderAction) {
     switch (action.type) {
         case "FETCH_ORDERS_REQUEST": {
-            return false;
+            return true;
         }
         case "FETCH_ORDERS_FAILURE":
         case "FETCH_ORDERS_SUCCESS":

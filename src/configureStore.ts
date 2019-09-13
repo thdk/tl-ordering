@@ -5,7 +5,7 @@ import thunkMiddleware from "redux-thunk";
 import rootReducer from "./core/app/reducer";
 import { IState } from "./core/app/types";
 
-export function configureStore(initialState: Partial<IState>) {
+export function configureStore(initialState?: Partial<IState>) {
     return createStore(
         rootReducer,
         initialState,

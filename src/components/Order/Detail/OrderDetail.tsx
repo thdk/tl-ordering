@@ -33,6 +33,7 @@ export const OrderDetail = (props: Props) => {
     const order = useSelector<IState, IOrder>(
         state => getOrder(state, orderId),
     );
+
     const orderItems = useSelector<IState, IOrderItemWithPrice[]>(
         state => getOrderItems(state, orderId),
     );
@@ -55,7 +56,7 @@ export const OrderDetail = (props: Props) => {
                     Total:
                 </span>
                 <span className="order-detail-total-value">
-                    {orderItems.reduce((p, c) => p += c.unitPrice, 0)}
+                    {orderItems.reduce((p, c) => p += c.unitPrice, 0).toFixed(2)}
                 </span>
             </div>
         </>
