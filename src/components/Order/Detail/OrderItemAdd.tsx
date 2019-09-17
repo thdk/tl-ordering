@@ -21,7 +21,7 @@ export interface IOrderItemAddProps {
 
 type Props = IPropsFromState & IPropsFromDispatch & IOrderItemAddProps;
 
-const OrderItemAdd = (props: Props) => {
+export const OrderItemAdd = (props: Props) => {
     const { onAdd, products } = props;
     const defaultQuantiy = 1;
 
@@ -75,5 +75,7 @@ const ConnectedOrderItemAdd = connect(
     mapStateToProps,
     mapDispatchToProps,
 )(OrderItemAdd);
+
+ConnectedOrderItemAdd.displayName = "OrderItemAddWrapper";
 
 export default ConnectedOrderItemAdd;

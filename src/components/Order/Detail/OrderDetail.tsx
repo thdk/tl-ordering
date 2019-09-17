@@ -14,29 +14,26 @@ import { IOrder } from "../../../core/orders/types";
 import { OrderOverviewLink } from "../../links/OrderOverviewLink";
 import { OrderItemList } from "../../OrderItem";
 
-export interface IOrderProps {
+export interface IOrderDetailProps {
     orderId: string;
 }
 
-export interface IOrderMatchProps extends RouteComponentProps<IOrderProps> {
+export interface IOrderMatchProps extends RouteComponentProps<IOrderDetailProps> {
+}
+
+interface IPropsFromState {
+    readonly order?: IOrder;
+    readonly orderItems: IOrderItemWithPrice[];
 }
 
 interface IPropsFromDispatch {
     readonly onClick: () => void;
 }
 
-type Props = IOrderProps & IPropsFromDispatch;
+type Props = IPropsFromState & IOrderDetailProps & IPropsFromDispatch;
 
 export const OrderDetail = (props: Props) => {
-    const { onClick, orderId } = props;
-
-    const order = useSelector<IState, IOrder>(
-        state => getOrder(state, orderId),
-    );
-
-    const orderItems = useSelector<IState, IOrderItemWithPrice[]>(
-        state => getOrderItems(state, orderId),
-    );
+    const { onClick, orderId, orderItems, order } = props;
 
     if (!order) {
         return <div className="error">
@@ -79,7 +76,12 @@ export const OrderDetail = (props: Props) => {
             </div>
             <br />
             <div>
-                <input type="button" onClick={onClick} value="Place order"></input>
+                <input
+                    className="order-detail-place-order-button"
+                    type="button"
+                    onClick={onClick}
+                    value="Place order">
+                </input>
                 <br />
                 Response printed in the developer console...
 
@@ -90,7 +92,12 @@ export const OrderDetail = (props: Props) => {
     );
 };
 
-const mapDispatchToProps = (dipatch: ThunkDispatch<{}, {}, any>, ownProps: IOrderProps) => {
+const mapStateToProps = (state: IState, ownProps: IOrderDetailProps) => ({
+    order: getOrder(state, ownProps.orderId),
+    orderItems: getOrderItems(state, ownProps.orderId),
+});
+
+const mapDispatchToProps = (dipatch: ThunkDispatch<{}, {}, any>, ownProps: IOrderDetailProps) => {
     return {
         onClick: () => {
             dipatch(placeOrder(ownProps.orderId));
@@ -99,7 +106,7 @@ const mapDispatchToProps = (dipatch: ThunkDispatch<{}, {}, any>, ownProps: IOrde
 };
 
 const ConnectedOrderDetail = connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
 )(OrderDetail);
 

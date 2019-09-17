@@ -1,319 +1,73 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`OrderDetail rendering for a given state from redux store: An order with multiple order items should match snapshot 1`] = `
-Array [
-  <div
-    className="order-detail"
-  >
+exports[`OrderDetail rendering An order with multiple order items should match snapshot 1`] = `
+"<Fragment>
+  <div className=\\"order-detail\\">
     Order detail page for order 
-    <span
-      style={
-        Object {
-          "fontWeight": "bold",
-        }
-      }
-    >
-      o2
-    </span>
-    <hr />
-    <br />
-    Customer: 
-    c1
-  </div>,
-  <ul>
-    <li>
-      <span
-        className="orderitem-product-description"
-      >
-        some product
-      </span>
-      :
-      <span
-        className="orderitem-quantity"
-      >
-        7
-      </span>
-       x $
-      10.99
-       = $
-      76.93
-      <input
-        onClick={[Function]}
-        type="button"
-        value="x"
-      />
-    </li>
-  </ul>,
-  <div
-    className="order-detail-total"
-  >
-    <span
-      className="order-detail-total-label"
-    >
-      Total:
-    </span>
-    <span
-      className="order-detail-total-value"
-    >
-      10.99
-    </span>
-  </div>,
-  <br />,
-  <div>
-    Add more products to this order:
-    <form
-      onSubmit={[Function]}
-    >
-      <label>
-        Product id:
-      </label>
-      <select>
-        $
-        <option
-          value="p1"
-        >
-          p1
-        </option>
-      </select>
-      <label>
-        Quantity:
-      </label>
-      <input
-        defaultValue="1"
-        min="0"
-        type="number"
-      />
-      <input
-        type="submit"
-        value="Add product"
-      />
-    </form>
-  </div>,
-  <br />,
-  <div>
-    <input
-      onClick={[Function]}
-      type="button"
-      value="Place order"
-    />
-    <br />
-    Response printed in the developer console...
-    <br />
-    <a
-      aria-current="page"
-      className="active"
-      href="/"
-      onClick={[Function]}
-      style={
-        Object {
-          "color": "black",
-          "textDecoration": "none",
-        }
-      }
-    >
-      Back to order overview
-    </a>
-  </div>,
-]
-`;
-
-exports[`OrderDetail rendering for a given state from redux store: An order with one orderitem for an invalid product should match snapshot 1`] = `
-Array [
-  <div
-    className="order-detail"
-  >
-    Order detail page for order 
-    <span
-      style={
-        Object {
-          "fontWeight": "bold",
-        }
-      }
-    >
+    <span style={{...}}>
       o1
     </span>
     <hr />
     <br />
     Customer: 
     c1
-  </div>,
-  <ul>
-    <li>
-      <span
-        className="orderitem-product-description"
-      >
-        some product
-      </span>
-      :
-      <span
-        className="orderitem-quantity"
-      >
-        3
-      </span>
-       x $
-      10.99
-       = $
-      32.97
-      <input
-        onClick={[Function]}
-        type="button"
-        value="x"
-      />
-    </li>
-  </ul>,
-  <div
-    className="order-detail-total"
-  >
-    <span
-      className="order-detail-total-label"
-    >
+  </div>
+  <OrderItemList orderId=\\"o1\\" orderItems={{...}} />
+  <div className=\\"order-detail-total\\">
+    <span className=\\"order-detail-total-label\\">
       Total:
     </span>
-    <span
-      className="order-detail-total-value"
-    >
-      10.99
+    <span className=\\"order-detail-total-value\\">
+      46.02
     </span>
-  </div>,
-  <br />,
+  </div>
+  <br />
   <div>
     Add more products to this order:
-    <form
-      onSubmit={[Function]}
-    >
-      <label>
-        Product id:
-      </label>
-      <select>
-        $
-        <option
-          value="p1"
-        >
-          p1
-        </option>
-      </select>
-      <label>
-        Quantity:
-      </label>
-      <input
-        defaultValue="1"
-        min="0"
-        type="number"
-      />
-      <input
-        type="submit"
-        value="Add product"
-      />
-    </form>
-  </div>,
-  <br />,
+    <OrderItemAddWrapper orderId=\\"o1\\" />
+  </div>
+  <br />
   <div>
-    <input
-      onClick={[Function]}
-      type="button"
-      value="Place order"
-    />
+    <input className=\\"order-detail-place-order-button\\" type=\\"button\\" onClick={[Function: mockConstructor]} value=\\"Place order\\" />
     <br />
     Response printed in the developer console...
     <br />
-    <a
-      aria-current="page"
-      className="active"
-      href="/"
-      onClick={[Function]}
-      style={
-        Object {
-          "color": "black",
-          "textDecoration": "none",
-        }
-      }
-    >
+    <Component>
       Back to order overview
-    </a>
-  </div>,
-]
+    </Component>
+  </div>
+</Fragment>"
 `;
 
-exports[`OrderDetail rendering for a given state from redux store: An order with zero order items should match snapshot 1`] = `
-Array [
-  <div
-    className="order-detail"
-  >
+exports[`OrderDetail rendering An order with zero order items should match snapshot 1`] = `
+"<Fragment>
+  <div className=\\"order-detail\\">
     Order detail page for order 
-    <span
-      style={
-        Object {
-          "fontWeight": "bold",
-        }
-      }
-    >
-      o3
+    <span style={{...}}>
+      o1
     </span>
     <hr />
     <br />
     Customer: 
     c1
-  </div>,
-  <div
-    className="order-detail--empty"
-  >
+  </div>
+  <div className=\\"order-detail--empty\\">
     This order contains no order items
-  </div>,
-  <br />,
+  </div>
+  <br />
   <div>
     Add more products to this order:
-    <form
-      onSubmit={[Function]}
-    >
-      <label>
-        Product id:
-      </label>
-      <select>
-        $
-        <option
-          value="p1"
-        >
-          p1
-        </option>
-      </select>
-      <label>
-        Quantity:
-      </label>
-      <input
-        defaultValue="1"
-        min="0"
-        type="number"
-      />
-      <input
-        type="submit"
-        value="Add product"
-      />
-    </form>
-  </div>,
-  <br />,
+    <OrderItemAddWrapper orderId=\\"o1\\" />
+  </div>
+  <br />
   <div>
-    <input
-      onClick={[Function]}
-      type="button"
-      value="Place order"
-    />
+    <input className=\\"order-detail-place-order-button\\" type=\\"button\\" onClick={[Function: mockConstructor]} value=\\"Place order\\" />
     <br />
     Response printed in the developer console...
     <br />
-    <a
-      aria-current="page"
-      className="active"
-      href="/"
-      onClick={[Function]}
-      style={
-        Object {
-          "color": "black",
-          "textDecoration": "none",
-        }
-      }
-    >
+    <Component>
       Back to order overview
-    </a>
-  </div>,
-]
+    </Component>
+  </div>
+</Fragment>"
 `;

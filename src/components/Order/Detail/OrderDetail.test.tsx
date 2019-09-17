@@ -1,141 +1,96 @@
 import React from "react";
-import { Provider } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
-import renderer from "react-test-renderer";
-import configureStore, { MockStoreEnhanced } from "redux-mock-store";
 
-import { IState } from "../../../core/app/types";
-import { ProductCategory } from "../../../core/products/types";
-import ConnectedOrderDetail from "./OrderDetail";
+import { shallow, ShallowWrapper } from "enzyme";
+import { OrderItemList } from "../../OrderItem";
+import { OrderDetail } from "./OrderDetail";
+import ConnectedOrderItemAdd from "./OrderItemAdd";
 
-const mockStore = configureStore<IState>();
-
-const initialState: Pick<IState, "orderItems" | "orders" | "products"> = {
-   orderItems: {
-      byOrderId: {
-         o1: [
-            {
-               productId: "p1",
-               quantity: 3,
-            },
-            {
-               productId: "p2",
-               quantity: 2,
-            },
-         ],
-         o2: [
-            {
-               productId: "p1",
-               quantity: 7,
-            },
-         ],
-         o3: [],
-      },
-   },
-   orders: {
-      byId: {
-         o1: {
-            id: "o1",
-            customerId: "c1",
-         },
-         o2: {
-            id: "o2",
-            customerId: "c1",
-         },
-         o3: {
-            id: "o3",
-            customerId: "c1",
-         },
-      },
-      visibleIds: ["o1", "o2", "o3"],
-      isLoading: false,
-   },
-   products: {
-      byId: {
-         p1: {
-            price: 10.99,
-            description: "some product",
-            category: ProductCategory.tools,
-            id: "p1",
-         },
-      },
-      allIds: ["p1"],
-      isLoading: false,
-   },
-};
-
-describe("OrderDetail rendering for a given state from redux store:", () => {
-   let store: MockStoreEnhanced<IState>;
-   beforeEach(() => {
-      store = mockStore(initialState);
-      store.dispatch = jest.fn();
-   });
-
+describe("OrderDetail rendering", () => {
    describe("An order with multiple order items", () => {
-      let component: renderer.ReactTestRenderer;
+      let component: ShallowWrapper;
+      const onClick = jest.fn();
 
       beforeEach(() => {
-         component = renderer.create(
-            <Provider store={store}>
-               <Router>
-                  <ConnectedOrderDetail orderId="o2" />
-               </Router>
-            </Provider>,
+         component = shallow(
+            <OrderDetail
+               onClick={onClick}
+               orderId={"o1"}
+               order={{
+                  customerId: "c1",
+                  id: "o1",
+               }}
+               orderItems={[
+                  {
+                     unitPrice: 23.01,
+                     productId: "B101",
+                     quantity: 3,
+                  },
+                  {
+                     unitPrice: 23.01,
+                     productId: "B101",
+                     quantity: 2,
+                  },
+               ]} />,
          );
       });
 
       it("should match snapshot", () => {
-         expect(component.toJSON()).toMatchSnapshot();
+         expect(component.debug()).toMatchSnapshot();
       });
 
       it("should display the total price for an order", () => {
          expect(
-            component.root.findByProps({ className: "order-detail-total-value" }).children,
-         ).toEqual(["10.99"]);
+            component.find(".order-detail-total-value").text(),
+         ).toEqual("46.02");
+      });
+
+      it("should render OrderItemList component", () => {
+         const orderItemList = component.find(OrderItemList);
+         expect(orderItemList.exists()).toBe(true);
+
+         const { orderId, orderItems } = orderItemList.props();
+         // check props passing to orderitemlist
+         expect(orderId).toBe("o1");
+         expect(orderItems.length).toBe(2);
+      });
+
+      it("should render OrderItemAdd component", () => {
+         const orderitemadd = component.find(ConnectedOrderItemAdd);
+         expect(orderitemadd.exists()).toBe(true);
+
+         const { orderId } = orderitemadd.props();
+         expect(orderId).toBe("o1");
+      });
+
+      it("should call place order on click", () => {
+         component.find(".order-detail-place-order-button").simulate("click");
+
+         expect(onClick).toBeCalled();
       });
    });
 
    describe("An order with zero order items", () => {
-      let component: renderer.ReactTestRenderer;
+      let component: ShallowWrapper;
 
       beforeEach(() => {
-         component = renderer.create(
-            <Provider store={store}>
-               <Router>
-                  <ConnectedOrderDetail orderId="o3" />
-               </Router>
-            </Provider>);
+         component = shallow(
+            <OrderDetail
+               onClick={jest.fn()}
+               orderId={"o1"}
+               order={{
+                  customerId: "c1",
+                  id: "o1",
+               }}
+               orderItems={[]} />,
+         );
       });
 
       it("should match snapshot", () => {
-         expect(component.toJSON()).toMatchSnapshot();
+         expect(component.debug()).toMatchSnapshot();
       });
 
       it("should display div with class order-detail--empty", () => {
-         expect(component.root.findByProps({className: "order-detail--empty"})).toBeTruthy();
-      });
-   });
-
-   describe("An order with one orderitem for an invalid product", () => {
-      let component: renderer.ReactTestRenderer;
-
-      beforeEach(() => {
-         component = renderer.create(
-            <Provider store={store}>
-               <Router>
-                  <ConnectedOrderDetail orderId="o1" />
-               </Router>
-            </Provider>);
-      });
-
-      it("should match snapshot", () => {
-         expect(component.toJSON()).toMatchSnapshot();
-      });
-
-      it("should display the total price for an order", () => {
-         expect(
-            component.root.findByProps({ className: "order-detail-total-value" }).children,
-         ).toEqual(["10.99"]);
+         expect(component.find(".order-detail--empty").exists()).toEqual(true);
       });
    });
 });
