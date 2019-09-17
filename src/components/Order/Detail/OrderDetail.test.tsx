@@ -6,9 +6,28 @@ import { OrderDetail } from "./OrderDetail";
 import ConnectedOrderItemAdd from "./OrderItemAdd";
 
 describe("OrderDetail rendering", () => {
+   const onClick = jest.fn();
+
+   describe("No order passed in as prop", () => {
+      let component: ShallowWrapper;
+
+      beforeEach(() => {
+         component = shallow(
+            <OrderDetail
+               onClick={onClick}
+               orderId={"o1"}
+               order={undefined}
+               orderItems={[]}></OrderDetail>,
+         );
+      });
+
+      it("Should match snapshot", () => {
+         expect(component.debug).toMatchSnapshot();
+      });
+   });
+
    describe("An order with multiple order items", () => {
       let component: ShallowWrapper;
-      const onClick = jest.fn();
 
       beforeEach(() => {
          component = shallow(
