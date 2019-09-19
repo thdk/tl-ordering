@@ -1,16 +1,14 @@
 import React from "react";
-import { connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { ThunkDispatch } from "redux-thunk";
 
 import OrderItemAdd from "./OrderItemAdd";
 
+import { bindActionCreators, Dispatch } from "redux";
 import { IState } from "../../../core/app/types";
 import { getOrderItems } from "../../../core/orderItems/reducer";
-import { IOrderItem, IOrderItemWithPrice } from "../../../core/orderitems/types";
 import { placeOrder } from "../../../core/orders/actions";
 import { getOrder } from "../../../core/orders/reducer";
-import { IOrder } from "../../../core/orders/types";
 import { OrderOverviewLink } from "../../links/OrderOverviewLink";
 import { OrderItemList } from "../../OrderItem";
 
@@ -21,16 +19,7 @@ export interface IOrderDetailProps {
 export interface IOrderMatchProps extends RouteComponentProps<IOrderDetailProps> {
 }
 
-interface IPropsFromState {
-    readonly order?: IOrder;
-    readonly orderItems: IOrderItemWithPrice[];
-}
-
-interface IPropsFromDispatch {
-    readonly onClick: () => void;
-}
-
-type Props = IPropsFromState & IOrderDetailProps & IPropsFromDispatch;
+type Props = IOrderDetailProps & StateProps & DispatchProps;
 
 export const OrderDetail = (props: Props) => {
     const { onClick, orderId, orderItems, order } = props;
@@ -92,18 +81,22 @@ export const OrderDetail = (props: Props) => {
     );
 };
 
+type StateProps = ReturnType<typeof mapStateToProps>;
+
 const mapStateToProps = (state: IState, ownProps: IOrderDetailProps) => ({
     order: getOrder(state, ownProps.orderId),
     orderItems: getOrderItems(state, ownProps.orderId),
 });
 
-const mapDispatchToProps = (dipatch: ThunkDispatch<{}, {}, any>, ownProps: IOrderDetailProps) => {
-    return {
-        onClick: () => {
-            dipatch(placeOrder(ownProps.orderId));
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+
+const mapDispatchToProps = (dispatch: Dispatch, props: IOrderDetailProps) =>
+    bindActionCreators(
+        {
+            onClick: () => placeOrder(props.orderId),
         },
-    };
-};
+        dispatch,
+    );
 
 const ConnectedOrderDetail = connect(
     mapStateToProps,

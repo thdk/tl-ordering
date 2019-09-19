@@ -71,5 +71,3 @@ exports[`OrderDetail rendering An order with zero order items should match snaps
   </div>
 </Fragment>"
 `;
-
-exports[`OrderDetail rendering No order passed in as prop Should match snapshot 1`] = `[Function]`;
