@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 
 import { IState } from "../app/types";
+import { getOrderItems } from "../orderItems/reducer";
 import { IOrderAction } from "./actions";
 import { IOrderDictionary } from "./types";
 
@@ -79,7 +80,13 @@ export function getOrder(state: IState, id: string) {
         throw new Error(`No order found for ${id}.`);
     }
 
-    return order;
+    const items = getOrderItems(state, id);
+    const total = items.reduce((p, c) => p += c.quantity * c.unitPrice, 0);
+    return {
+        ...order,
+        items,
+        total,
+    };
 }
 
 export function getVisibleOrders(state: IState) {

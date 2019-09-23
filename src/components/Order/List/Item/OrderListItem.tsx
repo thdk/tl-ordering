@@ -1,20 +1,16 @@
 import * as React from "react";
 
-import { connect } from "react-redux";
-import { IState } from "../../../../core/app/types";
 import { IOrder } from "../../../../core/orders/types";
 import OrderLink from "../../../links/OrderLink";
 
 interface IOrderListItemProps {
-    order: IOrder;
+    order: IOrder & { total: number };
 }
 
-interface IPropsFromState { total: number; }
+type Props = IOrderListItemProps;
 
-type Props = IOrderListItemProps & IPropsFromState;
-
-const OrderListItem = (props: Props) => {
-    const { order: { id, customerId }, total } = props;
+export const OrderListItem: React.FunctionComponent<Props> = ({ order }: Props) => {
+    const { id, customerId, total } = order;
 
     return (
         <div className="row">
@@ -32,20 +28,6 @@ const OrderListItem = (props: Props) => {
     );
 };
 
-const mapStateToProps = (state: IState, ownProps: IOrderListItemProps) => {
+OrderListItem.displayName = "OrderListItem";
 
-    const total = state.orderItems.byOrderId[ownProps.order.id].reduce((p, c) => {
-        const product = state.products.byId[c.productId];
-        if (!product) { console.error("No product found for " + c.productId + ". Using '0' as price"); }
-        p += (product ? product.price : 0) * c.quantity;
-        return p;
-    }, 0);
-
-    return { total };
-};
-
-const ConnectedOrderListItem = connect(
-    mapStateToProps,
-)(OrderListItem);
-
-export default ConnectedOrderListItem;
+export default OrderListItem;

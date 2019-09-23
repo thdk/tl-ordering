@@ -22,7 +22,9 @@ export interface IOrderMatchProps extends RouteComponentProps<IOrderDetailProps>
 type Props = IOrderDetailProps & StateProps & DispatchProps;
 
 export const OrderDetail = (props: Props) => {
-    const { onClick, orderId, orderItems, order } = props;
+    const { onClick, orderId, order } = props;
+
+    const { items, total } = order;
 
     if (!order) {
         return <div className="error">
@@ -34,15 +36,15 @@ export const OrderDetail = (props: Props) => {
 
     const { customerId } = order;
 
-    const listJSX = orderItems.length
+    const listJSX = items.length
         ? <>
-            <OrderItemList orderId={orderId} orderItems={orderItems} />
+            <OrderItemList orderId={orderId} orderItems={items} />
             <div className="order-detail-total">
                 <span className="order-detail-total-label">
                     Total:
                 </span>
                 <span className="order-detail-total-value">
-                    {orderItems.reduce((p, c) => p += c.unitPrice, 0).toFixed(2)}
+                    {total.toFixed(2)}
                 </span>
             </div>
         </>
@@ -85,7 +87,6 @@ type StateProps = ReturnType<typeof mapStateToProps>;
 
 const mapStateToProps = (state: IState, ownProps: IOrderDetailProps) => ({
     order: getOrder(state, ownProps.orderId),
-    orderItems: getOrderItems(state, ownProps.orderId),
 });
 
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;

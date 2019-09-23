@@ -46,6 +46,7 @@ export const OrderItemAdd = (props: Props) => {
 
         }
     };
+
     return (
         <form onSubmit={handleSubmit}>
             <label>Product id:</label><select ref={productIdRef}>

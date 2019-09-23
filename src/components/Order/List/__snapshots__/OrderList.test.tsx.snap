@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render OrderList with multipe orders should match snapshot 1`] = `
+"<div className=\\"list\\">
+  <OrderListItemHeader />
+  <OrderListItem order={{...}} />
+  <OrderListItem order={{...}} />
+  <OrderListItem order={{...}} />
+</div>"
+`;
+
+exports[`Render OrderList without orders should match snapshot 1`] = `
+"<div>
+  No orders found.
+  <br />
+  <a href=\\"?debug\\">
+    Use mocked api?
+  </a>
+</div>"
+`;

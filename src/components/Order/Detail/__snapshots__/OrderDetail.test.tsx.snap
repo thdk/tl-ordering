@@ -18,7 +18,7 @@ exports[`OrderDetail rendering An order with multiple order items should match s
       Total:
     </span>
     <span className=\\"order-detail-total-value\\">
-      46.02
+      115.05
     </span>
   </div>
   <br />
