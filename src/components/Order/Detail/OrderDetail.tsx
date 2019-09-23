@@ -7,7 +7,7 @@ import OrderItemAdd from "./OrderItemAdd";
 
 import { IState } from "../../../core/app/types";
 import { getOrderItems } from "../../../core/orderItems/reducer";
-import { IOrderItem, IOrderItemWithPrice } from "../../../core/orderitems/types";
+import { IOrderItemWithPrice } from "../../../core/orderitems/types";
 import { placeOrder } from "../../../core/orders/actions";
 import { getOrder } from "../../../core/orders/reducer";
 import { IOrder } from "../../../core/orders/types";

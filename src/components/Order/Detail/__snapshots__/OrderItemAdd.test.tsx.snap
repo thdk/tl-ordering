@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rendering OrderItemAdd should match snapshot 1`] = `
+"<form onSubmit={[Function]}>
+  <label>
+    Product id:
+  </label>
+  <select onChange={[Function]} className=\\"orderitem-add-product-select\\">
+    $
+    <option value=\\"p1\\">
+      p1
+    </option>
+    <option value=\\"p2\\">
+      p2
+    </option>
+    <option value=\\"p3\\">
+      p3
+    </option>
+  </select>
+  <label>
+    Quantity:
+  </label>
+  <input className=\\"orderitem-add-quantity\\" onChange={[Function]} type=\\"number\\" min=\\"0\\" defaultValue=\\"1\\" />
+  <input className=\\"orderitem-add-submit-button\\" type=\\"submit\\" value=\\"Add product\\" />
+</form>"
+`;

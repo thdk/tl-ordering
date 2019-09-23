@@ -1,81 +1,90 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { bindActionCreators, Dispatch } from "redux";
 
 import { IState } from "../../../core/app/types";
 import { addOrderItem } from "../../../core/orderitems/actions";
 import { IOrderItem } from "../../../core/orderitems/types";
-import { IProduct } from "../../../core/products/types";
-
-export interface IPropsFromState {
-    products: IProduct[];
-}
-
-export interface IPropsFromDispatch {
-    readonly onAdd: (item: IOrderItem) => void;
-}
+import { getProducts } from "../../../core/products/reducer";
 
 export interface IOrderItemAddProps {
     readonly orderId: string;
 }
 
-type Props = IPropsFromState & IPropsFromDispatch & IOrderItemAddProps;
+type Props = StateProps & DispatchProps & IOrderItemAddProps;
 
-export const OrderItemAdd = (props: Props) => {
-    const { onAdd, products } = props;
+export const OrderItemAdd: React.FunctionComponent<Props> = props => {
+    const { onAdd, products, orderId } = props;
     const defaultQuantiy = 1;
 
-    const productIdRef = useRef<HTMLSelectElement | null>(null);
-    const quantityRef = useRef<HTMLInputElement | null>(null);
+    const [productId, setProductId] = useState("");
+    const [quantity, setQuantity] = useState(1);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleQuantityChanged = useCallback<(e: React.ChangeEvent<HTMLInputElement>) => void>(e => {
+        setQuantity(+e.currentTarget.value);
+    }, []);
+
+    const handleProductChanged = useCallback<(e: React.ChangeEvent<HTMLSelectElement>) => void>(e => {
+        console.log(e.currentTarget.value);
+        setProductId(e.currentTarget.value);
+    }, []);
+
+    const handleSubmit = useCallback((e: React.FormEvent) => {
         e.preventDefault();
         e.stopPropagation();
 
+        console.log({ productId });
         // Todo: validate input
-        if (productIdRef.current && quantityRef.current) {
-            if (productIdRef.current.value) {
-                onAdd({
-                    productId: productIdRef.current.value,
-                    quantity: +quantityRef.current.value,
-                });
 
-                productIdRef.current.value = "";
-                quantityRef.current.value = defaultQuantiy.toString();
-            }
-
+        if (productId) {
+            onAdd(orderId, {
+                productId,
+                quantity,
+            });
         }
-    };
+
+        setProductId("");
+        setQuantity(defaultQuantiy);
+
+    }, [productId, quantity]);
+
     return (
         <form onSubmit={handleSubmit}>
-            <label>Product id:</label><select ref={productIdRef}>
+            <label>Product id:</label>
+            <select
+                onChange={handleProductChanged}
+                className="orderitem-add-product-select"
+            >
                 ${products.map(product => <option key={product.id} value={product.id}>{product.id}</option>)}
             </select>
-            <label>Quantity:</label><input type="number" min="0" ref={quantityRef} defaultValue={"1"}></input>
-            <input type="submit" value="Add product" />
+            <label>Quantity:</label>
+            <input className="orderitem-add-quantity"
+                onChange={handleQuantityChanged}
+                type="number"
+                min="0"
+                defaultValue={"1"}>
+            </input>
+            <input className="orderitem-add-submit-button" type="submit" value="Add product" />
         </form>
     );
 };
 
-const mapStateToProps = (state: IState) => {
-    return {
-        products: state.products.allIds.map(id => state.products.byId[id]),
-    };
-};
+OrderItemAdd.displayName = "OrderItemAdd";
 
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: IOrderItemAddProps) => {
-    return {
-        onAdd: (item: IOrderItem) => {
-            dispatch(addOrderItem(item, ownProps.orderId));
-        },
-    };
+type StateProps = ReturnType<typeof mapStateToProps>;
+
+const mapStateToProps = (state: IState) => ({
+    products: getProducts(state),
+});
+
+type DispatchProps = typeof mapDispatchToProps;
+const mapDispatchToProps = {
+    onAdd: addOrderItem,
 };
 
 const ConnectedOrderItemAdd = connect(
     mapStateToProps,
     mapDispatchToProps,
 )(OrderItemAdd);
-
-ConnectedOrderItemAdd.displayName = "OrderItemAddWrapper";
 
 export default ConnectedOrderItemAdd;

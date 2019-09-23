@@ -62,6 +62,10 @@ export function getProduct(state: IState, productId: string) {
     return product;
 }
 
+export function getProducts(state: IState) {
+    return state.products.allIds.map(productId => getProduct(state, productId));
+}
+
 export function getProductPrice(state: IState, id: string) {
     const product = getProduct(state, id);
     return product ? product.price : undefined;

@@ -24,7 +24,7 @@ exports[`OrderDetail rendering An order with multiple order items should match s
   <br />
   <div>
     Add more products to this order:
-    <OrderItemAddWrapper orderId=\\"o1\\" />
+    <Connect(OrderItemAdd) orderId=\\"o1\\" />
   </div>
   <br />
   <div>
@@ -57,7 +57,7 @@ exports[`OrderDetail rendering An order with zero order items should match snaps
   <br />
   <div>
     Add more products to this order:
-    <OrderItemAddWrapper orderId=\\"o1\\" />
+    <Connect(OrderItemAdd) orderId=\\"o1\\" />
   </div>
   <br />
   <div>

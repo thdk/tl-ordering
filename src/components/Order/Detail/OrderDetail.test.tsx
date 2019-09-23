@@ -90,7 +90,6 @@ describe("OrderDetail rendering", () => {
 
    describe("An order with zero order items", () => {
       let component: ShallowWrapper;
-
       beforeEach(() => {
          component = shallow(
             <OrderDetail

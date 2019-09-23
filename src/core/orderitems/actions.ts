@@ -18,7 +18,7 @@ export interface IRemoveOrderItemAction {
 export type OrderItemAction = IAddOrderItemAction | IRemoveOrderItemAction;
 
 // action creators
-export const addOrderItem = (orderItem: IOrderItem, orderId: string): IAddOrderItemAction => {
+export const addOrderItem = (orderId: string, orderItem: IOrderItem): IAddOrderItemAction => {
     return {
         payload: { item: orderItem, orderId },
         type: ADD_ORDER_ITEM,
