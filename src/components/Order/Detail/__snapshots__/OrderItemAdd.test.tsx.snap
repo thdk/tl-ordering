@@ -6,6 +6,9 @@ exports[`Rendering OrderItemAdd should match snapshot 1`] = `
     Product id:
   </label>
   <select onChange={[Function]} className=\\"orderitem-add-product-select\\">
+    <option value=\\"\\">
+      Select a product
+    </option>
     $
     <option value=\\"p1\\">
       p1

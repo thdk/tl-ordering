@@ -28,7 +28,7 @@ exports[`OrderDetail rendering An order with multiple order items should match s
   </div>
   <br />
   <div>
-    <input className=\\"order-detail-place-order-button\\" type=\\"button\\" onClick={[Function: mockConstructor]} value=\\"Place order\\" />
+    <input className=\\"order-detail-place-order-button\\" type=\\"button\\" onClick={[Function]} value=\\"Place order\\" />
     <br />
     Response printed in the developer console...
     <br />
@@ -61,7 +61,7 @@ exports[`OrderDetail rendering An order with zero order items should match snaps
   </div>
   <br />
   <div>
-    <input className=\\"order-detail-place-order-button\\" type=\\"button\\" onClick={[Function: mockConstructor]} value=\\"Place order\\" />
+    <input className=\\"order-detail-place-order-button\\" type=\\"button\\" onClick={[Function]} value=\\"Place order\\" />
     <br />
     Response printed in the developer console...
     <br />
@@ -71,3 +71,5 @@ exports[`OrderDetail rendering An order with zero order items should match snaps
   </div>
 </Fragment>"
 `;
+
+exports[`OrderDetail rendering No order passed in as prop Should match snapshot 1`] = `[Function]`;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -21,19 +21,23 @@ export interface IOrderMatchProps extends RouteComponentProps<IOrderDetailProps>
 type Props = IOrderDetailProps & StateProps & DispatchProps;
 
 export const OrderDetail = (props: Props) => {
-    const { onClick, orderId, order } = props;
-
-    const { items, total } = order;
+    const { onClick: onPlaceOrder, orderId, order } = props;
 
     if (!order) {
-        return <div className="error">
-            Order not found
-        <br />
-            <a href="?debug">Use mocked api?</a>
-        </div>;
+        return (
+            <div className="error">
+                Order not found
+                <br />
+                <a href="?debug">Use mocked api?</a>
+            </div>
+        );
     }
 
-    const { customerId } = order;
+    const handlePlaceOrder = useCallback(() => {
+        onPlaceOrder(orderId);
+    }, []);
+
+    const { items, total, customerId } = order;
 
     const listJSX = items.length
         ? <>
@@ -69,7 +73,7 @@ export const OrderDetail = (props: Props) => {
                 <input
                     className="order-detail-place-order-button"
                     type="button"
-                    onClick={onClick}
+                    onClick={handlePlaceOrder}
                     value="Place order">
                 </input>
                 <br />
@@ -90,10 +94,10 @@ const mapStateToProps = (state: IState, ownProps: IOrderDetailProps) => ({
 
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 
-const mapDispatchToProps = (dispatch: Dispatch, props: IOrderDetailProps) =>
+const mapDispatchToProps = (dispatch: Dispatch) =>
     bindActionCreators(
         {
-            onClick: () => placeOrder(props.orderId),
+            onClick: placeOrder,
         },
         dispatch,
     );

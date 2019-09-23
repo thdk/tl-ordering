@@ -77,7 +77,7 @@ export default combineReducers({
 export function getOrder(state: IState, id: string) {
     const order = state.orders.byId[id];
     if (!order) {
-        throw new Error(`No order found for ${id}.`);
+        return null;
     }
 
     const items = getOrderItems(state, id);
@@ -90,5 +90,7 @@ export function getOrder(state: IState, id: string) {
 }
 
 export function getVisibleOrders(state: IState) {
-    return state.orders.visibleIds.map(id => getOrder(state, id));
+    return state.orders.visibleIds
+        .map(id => getOrder(state, id))
+        .filter(o => !!o);
 }

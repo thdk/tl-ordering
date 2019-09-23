@@ -14,9 +14,9 @@ export interface IOrderItemProps extends IOrderItem {
 type Props = IOrderItemProps & DispatchProps & StateProps;
 
 const OrderItem: React.FunctionComponent<Props> = (props: Props) => {
-    const { onDeleteOrderItem, productId, quantity, product } = props;
+    const { onDeleteOrderItem, productId, quantity, product, orderId } = props;
 
-    const onClick = useCallback(() => onDeleteOrderItem(productId), [productId]);
+    const onClick = useCallback(() => onDeleteOrderItem(productId, orderId), [productId]);
 
     if (!product) { return null; }
 
@@ -38,17 +38,15 @@ OrderItem.displayName = "OrderItem";
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 
-const mapStateToProps = (state: IState, {productId}: IOrderItemProps) => ({
+const mapStateToProps = (state: IState, { productId }: IOrderItemProps) => ({
     product: getProduct(state, productId),
 });
 
-type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+type DispatchProps = typeof mapDispatchToProps;
 
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: IOrderItemProps) => ({
-    onDeleteOrderItem: (productId: string) => {
-        dispatch(removeOrderItem(productId, ownProps.orderId));
-    },
-});
+const mapDispatchToProps = {
+    onDeleteOrderItem: removeOrderItem,
+};
 
 const ConnectedOrderItem = connect(
     mapStateToProps,

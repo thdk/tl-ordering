@@ -25,7 +25,6 @@ export const OrderItemAdd: React.FunctionComponent<Props> = props => {
     }, []);
 
     const handleProductChanged = useCallback<(e: React.ChangeEvent<HTMLSelectElement>) => void>(e => {
-        console.log(e.currentTarget.value);
         setProductId(e.currentTarget.value);
     }, []);
 
@@ -54,6 +53,7 @@ export const OrderItemAdd: React.FunctionComponent<Props> = props => {
                 onChange={handleProductChanged}
                 className="orderitem-add-product-select"
             >
+                <option value="">Select a product</option>
                 ${products.map(product => <option key={product.id} value={product.id}>{product.id}</option>)}
             </select>
             <label>Quantity:</label>
