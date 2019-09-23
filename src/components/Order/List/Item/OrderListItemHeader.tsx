@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const OrderListItemHeader = () => {
+export const OrderListItemHeader: React.FunctionComponent = () => {
     return (
         <div className="row header">
             <div className="row-left">
@@ -16,5 +16,7 @@ const OrderListItemHeader = () => {
         </div>
     );
 };
+
+OrderListItemHeader.displayName = "OrderListItemHeader";
 
 export default OrderListItemHeader;

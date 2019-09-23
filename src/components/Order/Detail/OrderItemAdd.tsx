@@ -33,7 +33,6 @@ export const OrderItemAdd: React.FunctionComponent<Props> = props => {
         e.preventDefault();
         e.stopPropagation();
 
-        console.log({ productId });
         // Todo: validate input
 
         if (productId) {

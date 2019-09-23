@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render OrderListItem should match snapshot 1`] = `
+"<div className=\\"row\\">
+  <div className=\\"row-left\\">
+    <div>
+      o1
+    </div>
+    <div>
+      c1
+    </div>
+  </div>
+  <div className=\\"row-right\\">
+    <div>
+      15.19
+    </div>
+    <div>
+      <Component orderId=\\"o1\\">
+        detail
+      </Component>
+    </div>
+  </div>
+</div>"
+`;

@@ -3,16 +3,12 @@ import { connect } from "react-redux";
 
 import { IState } from "../../../core/app/types";
 import { getVisibleOrders } from "../../../core/orders/reducer";
-import { IOrder } from "../../../core/orders/types";
-import OrderListItem from "./Item/OrderListItem";
+import { OrderListItem } from "./Item/OrderListItem";
 import OrderListItemHeader from "./Item/OrderListItemHeader";
 
-interface IPropsFromState {
-    orders: IOrder[];
-}
+type OrderListProps = StateProps;
 
-type Props = IPropsFromState;
-const OrderList = (props: Props) => {
+export const OrderList = (props: OrderListProps) => {
     const { orders } = props;
 
     const listJSX = orders.length
@@ -22,17 +18,17 @@ const OrderList = (props: Props) => {
         </div>
         : <div>
             No orders found.
-            <br/>
+            <br />
             <a href="?debug">Use mocked api?</a>
         </div>;
 
     return listJSX;
 };
 
-const mapStateToProps = (state: IState): IPropsFromState => {
-    return {
-        orders: getVisibleOrders(state),
-    };
-};
+type StateProps = ReturnType<typeof mapStateToProps>;
+
+const mapStateToProps = (state: IState) => ({
+    orders: getVisibleOrders(state),
+});
 
 export default connect(mapStateToProps)(OrderList);

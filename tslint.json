@@ -4,6 +4,14 @@
         "object-literal-sort-keys": false,
         "no-console": false,
         "no-empty-interface": false,
-        "arrow-parens": [true, "ban-single-arg-parens"]
+        "arrow-parens": [
+            true,
+            "ban-single-arg-parens"
+        ]
+    },
+    "linterOptions": {
+        "exclude": [
+            "node_modules/**/*"
+        ]
     }
 }

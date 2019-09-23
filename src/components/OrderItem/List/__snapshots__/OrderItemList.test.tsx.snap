@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render OrderItemList with multipe order items should match snapshot 1`] = `
+"<ul>
+  <Connect(OrderItem) orderId=\\"o1\\" productId=\\"p1\\" quantity={2} />
+  <Connect(OrderItem) orderId=\\"o1\\" productId=\\"p2\\" quantity={1} />
+  <Connect(OrderItem) orderId=\\"o1\\" productId=\\"p3\\" quantity={1} />
+</ul>"
+`;
+
+exports[`Render OrderItemList without order items should match snapshot 1`] = `"<ul />"`;

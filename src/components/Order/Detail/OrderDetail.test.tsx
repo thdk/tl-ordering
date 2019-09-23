@@ -8,24 +8,6 @@ import ConnectedOrderItemAdd from "./OrderItemAdd";
 describe("OrderDetail rendering", () => {
    const onClick = jest.fn();
 
-   describe("No order passed in as prop", () => {
-      let component: ShallowWrapper;
-
-      beforeEach(() => {
-         component = shallow(
-            <OrderDetail
-               onClick={onClick}
-               orderId={"o1"}
-               order={undefined}
-               orderItems={[]}></OrderDetail>,
-         );
-      });
-
-      it("Should match snapshot", () => {
-         expect(component.debug).toMatchSnapshot();
-      });
-   });
-
    describe("An order with multiple order items", () => {
       let component: ShallowWrapper;
 
@@ -37,19 +19,21 @@ describe("OrderDetail rendering", () => {
                order={{
                   customerId: "c1",
                   id: "o1",
+                  items: [
+                     {
+                        unitPrice: 23.01,
+                        productId: "B101",
+                        quantity: 3,
+                     },
+                     {
+                        unitPrice: 23.01,
+                        productId: "B101",
+                        quantity: 2,
+                     },
+                  ],
+                  total: 115.05,
                }}
-               orderItems={[
-                  {
-                     unitPrice: 23.01,
-                     productId: "B101",
-                     quantity: 3,
-                  },
-                  {
-                     unitPrice: 23.01,
-                     productId: "B101",
-                     quantity: 2,
-                  },
-               ]} />,
+                />,
          );
       });
 
@@ -60,7 +44,7 @@ describe("OrderDetail rendering", () => {
       it("should display the total price for an order", () => {
          expect(
             component.find(".order-detail-total-value").text(),
-         ).toEqual("46.02");
+         ).toEqual("115.05");
       });
 
       it("should render OrderItemList component", () => {
@@ -98,8 +82,9 @@ describe("OrderDetail rendering", () => {
                order={{
                   customerId: "c1",
                   id: "o1",
-               }}
-               orderItems={[]} />,
+                  items: [],
+                  total: 0,
+               }}/>,
          );
       });
 
