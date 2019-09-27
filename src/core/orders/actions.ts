@@ -1,76 +1,47 @@
 import { Dispatch } from "redux";
 
 import { IState } from "../app/types";
+import * as types from "./constants";
 import { convertOrders, convertPlaceOrderResult } from "./deserialization";
 import { getOrder } from "./reducer";
 import { serializeOrder } from "./serialization";
 import { IOrderData, IPlaceOrderData } from "./types";
 
 // action types
+export type PlaceOrderAction = ReturnType<typeof placeOrderRequest>;
+export type PlaceOrderSuccessAction = ReturnType<typeof placeOrderSuccess>;
+export type PlaceOrderFailureAction = ReturnType<typeof placeOrderFailure>;
+export type FetchOrdersAction = ReturnType<typeof fetchOrdersRequest>;
+export type FetchOrdersSuccessAction = ReturnType<typeof fetchOrdersSuccess>;
+export type FetchOrdersFailureAction = ReturnType<typeof fetchOrdersFailure>;
 
-export const FETCH_ORDERS_REQUEST = "FETCH_ORDERS_REQUEST";
-export const FETCH_ORDERS_SUCCESS = "FETCH_ORDERS_SUCCESS";
-export const FETCH_ORDERS_FAILURE = "FETCH_ORDERS_FAILURE";
-
-export const PLACE_ORDER_REQUEST = "PLACE_ORDER_REQUEST";
-export const PLACE_ORDER_SUCCESS = "PLACE_ORDER_SUCCESS";
-export const PLACE_ORDER_FAILURE = "PLACE_ORDER_FAILURE";
-
-// action interfaces
-export interface IPlaceOrderAction {
-    type: typeof PLACE_ORDER_REQUEST;
-    payload: string;
-}
-
-export interface IPlaceOrderSuccessAction {
-    type: typeof PLACE_ORDER_SUCCESS;
-    payload: IPlaceOrderData;
-}
-
-export interface IPlaceOrderFailureAction {
-    type: typeof PLACE_ORDER_FAILURE;
-}
-
-export interface IFetchOrdersAction {
-    type: typeof FETCH_ORDERS_REQUEST;
-}
-
-export interface IFetchOrdersSuccessAction {
-    type: typeof FETCH_ORDERS_SUCCESS;
-    payload: IOrderData[];
-}
-
-export interface IFetchOrdersFailureAction {
-    type: typeof FETCH_ORDERS_FAILURE;
-}
-
-export type IOrderAction =
-    IFetchOrdersAction |
-    IFetchOrdersFailureAction |
-    IFetchOrdersSuccessAction |
-    IPlaceOrderAction |
-    IPlaceOrderFailureAction |
-    IPlaceOrderSuccessAction;
+export type OrderAction =
+    FetchOrdersAction |
+    FetchOrdersFailureAction |
+    FetchOrdersSuccessAction |
+    PlaceOrderAction |
+    PlaceOrderFailureAction |
+    PlaceOrderSuccessAction;
 
 // action creators
 
 // begin fetch orders
 export const fetchOrdersRequest = () => {
     return {
-        type: FETCH_ORDERS_REQUEST,
+        type: types.FETCH_ORDERS_REQUEST as typeof types.FETCH_ORDERS_REQUEST,
     };
 };
 
-const fetchOrdersSuccess = (orders: IOrderData[]) => {
+export const fetchOrdersSuccess = (orders: IOrderData[]) => {
     return {
-        type: FETCH_ORDERS_SUCCESS,
+        type: types.FETCH_ORDERS_SUCCESS as typeof types.FETCH_ORDERS_SUCCESS,
         payload: orders,
     };
 };
 
-const fetchOrdersFailure = (ex: any) => {
+export const fetchOrdersFailure = (ex: any) => {
     return {
-        type: FETCH_ORDERS_FAILURE,
+        type: types.FETCH_ORDERS_FAILURE as typeof types.FETCH_ORDERS_FAILURE,
         ex,
     };
 };
@@ -98,16 +69,16 @@ export function fetchOrders() {
 // begin place order
 
 export const placeOrderRequest = () => ({
-    type: PLACE_ORDER_REQUEST,
+    type: types.PLACE_ORDER_REQUEST as typeof types.PLACE_ORDER_REQUEST,
 });
 
-export const placeOrderSuccess = (result: IPlaceOrderData): IPlaceOrderSuccessAction => ({
-    type: PLACE_ORDER_SUCCESS,
+export const placeOrderSuccess = (result: IPlaceOrderData) => ({
+    type: types.PLACE_ORDER_SUCCESS as typeof types.PLACE_ORDER_SUCCESS,
     payload: result,
 });
 
 export const placeOrderFailure = () => ({
-    type: PLACE_ORDER_FAILURE,
+    type: types.PLACE_ORDER_FAILURE as typeof types.PLACE_ORDER_FAILURE,
 });
 
 export const placeOrder = (id: string) => {

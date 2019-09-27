@@ -3,10 +3,10 @@ import { IOrderItemDictionary, IOrderItemState, IOrderItemWithPrice } from "./ty
 import { OrderItemAction } from "./actions";
 
 import { IState } from "../app/types";
-import { IOrderAction } from "../orders/actions";
+import { OrderAction } from "../orders/actions";
 import { getProductPrice } from "../products/reducer";
 
-export function orderItems(state: IOrderItemState = { byOrderId: {} }, action: OrderItemAction | IOrderAction) {
+export function orderItems(state: IOrderItemState = { byOrderId: {} }, action: OrderItemAction | OrderAction) {
   switch (action.type) {
     case "FETCH_ORDERS_SUCCESS": {
       return {

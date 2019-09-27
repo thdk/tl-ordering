@@ -2,14 +2,16 @@ import { combineReducers } from "redux";
 
 import { IState } from "../app/types";
 import { getOrderItems } from "../orderItems/reducer";
-import { IOrderAction } from "./actions";
-import { IOrderDictionary } from "./types";
+import { IOrderItemWithPrice } from "../orderItems/types";
+import { OrderAction } from "./actions";
+import * as types from "./constants";
+import { IOrder, IOrderDictionary } from "./types";
 
 export function byId(
     state: IOrderDictionary = {},
-    action: IOrderAction) {
+    action: OrderAction) {
     switch (action.type) {
-        case "FETCH_ORDERS_SUCCESS": {
+        case types.FETCH_ORDERS_SUCCESS: {
             return action.payload.reduce((p, c) => {
                 p[c.id] = c;
                 return p;
@@ -34,7 +36,7 @@ export function byId(
 
 export function visibleIds(
     state: string[] = [],
-    action: IOrderAction) {
+    action: OrderAction) {
     switch (action.type) {
         case "FETCH_ORDERS_SUCCESS": {
             return action.payload.map(o => o.id);
@@ -56,7 +58,7 @@ export function visibleIds(
     }
 }
 
-export function isLoading(_: boolean = true, action: IOrderAction) {
+export function isLoading(_: boolean = true, action: OrderAction) {
     switch (action.type) {
         case "FETCH_ORDERS_REQUEST": {
             return true;
@@ -92,5 +94,5 @@ export function getOrder(state: IState, id: string) {
 export function getVisibleOrders(state: IState) {
     return state.orders.visibleIds
         .map(id => getOrder(state, id))
-        .filter(o => !!o);
+        .filter(o => !!o) as Array<IOrder & {items: IOrderItemWithPrice[], total: number}>;
 }
