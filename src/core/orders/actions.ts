@@ -39,10 +39,10 @@ export const fetchOrdersSuccess = (orders: IOrderData[]) => {
     };
 };
 
-export const fetchOrdersFailure = (ex: any) => {
+export const fetchOrdersFailure = (error: Error) => {
     return {
         type: types.FETCH_ORDERS_FAILURE as typeof types.FETCH_ORDERS_FAILURE,
-        ex,
+        error,
     };
 };
 
@@ -57,8 +57,7 @@ export function fetchOrders() {
                         dispatch(fetchOrdersSuccess(body));
                     });
             })
-            .catch(ex => {
-                console.error(ex);
+            .catch((ex: Error) => {
                 dispatch(fetchOrdersFailure(ex));
             });
     };
@@ -77,8 +76,9 @@ export const placeOrderSuccess = (result: IPlaceOrderData) => ({
     payload: result,
 });
 
-export const placeOrderFailure = () => ({
+export const placeOrderFailure = (error: Error) => ({
     type: types.PLACE_ORDER_FAILURE as typeof types.PLACE_ORDER_FAILURE,
+    error,
 });
 
 export const placeOrder = (id: string) => {
@@ -86,30 +86,29 @@ export const placeOrder = (id: string) => {
         dispatch(placeOrderRequest());
 
         const state = getState();
-        const orderItems = state.orderItems.byOrderId[id];
-        const products = state.products.allIds.map(productId => state.products.byId[productId]);
         const order = getOrder(state, id);
 
-        if (!order) { throw new Error(`Can't find order with id ${id}.`); }
+        if (!order) {
+            dispatch(placeOrderFailure(new Error(`Can't find order with id ${id}.`)));
+            return new Promise(resolve => resolve());
+        }
 
         return fetch(`${process.env.apiUrl}/placeorder`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(serializeOrder(order, orderItems, products)),
+            body: JSON.stringify(serializeOrder(order)),
         })
             .then(res => {
-                console.log("Place order result");
                 return res.json()
-                    .then(convertPlaceOrderResult, ex => { throw new Error(ex); })
+                    .then(convertPlaceOrderResult)
                     .then(body => {
                         dispatch(placeOrderSuccess(body));
                     });
             })
-            .catch(ex => {
-                console.error(ex);
-                dispatch(placeOrderFailure());
+            .catch((ex: Error) => {
+                dispatch(placeOrderFailure(ex));
             });
     };
 };

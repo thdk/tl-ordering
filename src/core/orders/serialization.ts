@@ -1,34 +1,27 @@
-import { IApiOrder, IOrder } from "./types";
+import { IApiOrder, IOrder, IOrderWithData } from "./types";
 
-import { IApiOrderItem, IOrderItem } from "../orderitems/types";
+import { IApiOrderItem, IOrderItemWithPrice } from "../orderitems/types";
 
-import { IProduct } from "../products/types";
-
-export const serializeOrder = (order: IOrder, items: IOrderItem[], products: IProduct[]): IApiOrder => {
-    const apiItems = serializeOrderItems(items, products);
+export const serializeOrder = (order: IOrderWithData): IApiOrder => {
+    const apiItems = serializeOrderItems(order.items);
     const apiOrder: IApiOrder = {
         id: order.id,
         items: apiItems,
-        total: apiItems.reduce((p, c) => p += (+c.total), 0).toFixed(2),
+        total: order.total.toFixed(2),
     };
 
     apiOrder["customer-id"] = order.customerId;
     return apiOrder;
 };
 
-export const serializeOrderItems = (orderItems: IOrderItem[], products: IProduct[]): IApiOrderItem[] =>
-    orderItems.map(item => {
-        const product = products.find(p => p.id === item.productId);
-        if (!product) { throw new Error(`Can't find product for ${item.productId}`); }
+export const serializeOrderItems = (orderItems: IOrderItemWithPrice[]): IApiOrderItem[] =>
+    orderItems.map(serializeOrderItem);
 
-        return serializeOrderItem(item, product);
-    });
-
-export const serializeOrderItem = (orderItem: IOrderItem, product: IProduct): IApiOrderItem => {
-    const apiOrderItem = {} as IApiOrderItem;
+export const serializeOrderItem = (orderItem: IOrderItemWithPrice): IApiOrderItem => {
+    const apiOrderItem: Partial<IApiOrderItem> = {};
     apiOrderItem.quantity = orderItem.quantity.toString();
-    apiOrderItem.total = (product.price * orderItem.quantity).toFixed(2);
+    apiOrderItem.total = (orderItem.unitPrice * orderItem.quantity).toFixed(2);
     apiOrderItem["product-id"] = orderItem.productId;
-    apiOrderItem["unit-price"] = product.price.toFixed(2);
-    return apiOrderItem;
+    apiOrderItem["unit-price"] = orderItem.unitPrice.toFixed(2);
+    return apiOrderItem as IApiOrderItem;
 };

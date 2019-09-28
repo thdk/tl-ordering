@@ -5,7 +5,7 @@ import { getOrderItems } from "../orderItems/reducer";
 import { IOrderItemWithPrice } from "../orderItems/types";
 import { OrderAction } from "./actions";
 import * as types from "./constants";
-import { IOrder, IOrderDictionary } from "./types";
+import { IOrder, IOrderDictionary, IOrderWithData } from "./types";
 
 export function byId(
     state: IOrderDictionary = {},
@@ -17,18 +17,6 @@ export function byId(
                 return p;
             }, {} as IOrderDictionary);
         }
-        case "PLACE_ORDER_SUCCESS": {
-            const { success, order, reason } = action.payload;
-            if (success) {
-                console.log("Order placed succesfully:");
-                console.log({ order });
-            } else {
-                console.error(`Coudn't place order: ${reason}`);
-            }
-            return state;
-        }
-        case "FETCH_ORDERS_REQUEST":
-        case "FETCH_ORDERS_FAILURE":
         default:
             return state;
     }
@@ -38,21 +26,9 @@ export function visibleIds(
     state: string[] = [],
     action: OrderAction) {
     switch (action.type) {
-        case "FETCH_ORDERS_SUCCESS": {
+        case types.FETCH_ORDERS_SUCCESS: {
             return action.payload.map(o => o.id);
         }
-        case "PLACE_ORDER_SUCCESS": {
-            const { success, order, reason } = action.payload;
-            if (success) {
-                console.log("Order placed succesfully:");
-                console.log({ order });
-            } else {
-                console.error(`Coudn't place order: ${reason}`);
-            }
-            return state;
-        }
-        case "FETCH_ORDERS_REQUEST":
-        case "FETCH_ORDERS_FAILURE":
         default:
             return state;
     }
@@ -60,11 +36,9 @@ export function visibleIds(
 
 export function isLoading(_: boolean = true, action: OrderAction) {
     switch (action.type) {
-        case "FETCH_ORDERS_REQUEST": {
+        case types.FETCH_ORDERS_REQUEST: {
             return true;
         }
-        case "FETCH_ORDERS_FAILURE":
-        case "FETCH_ORDERS_SUCCESS":
         default:
             return false;
     }
@@ -76,7 +50,7 @@ export default combineReducers({
     isLoading,
 });
 
-export function getOrder(state: IState, id: string) {
+export function getOrder(state: IState, id: string): IOrderWithData | null {
     const order = state.orders.byId[id];
     if (!order) {
         return null;

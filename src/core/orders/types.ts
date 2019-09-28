@@ -1,4 +1,4 @@
-import { IApiOrderItem, IOrderItemData } from "../orderitems/types";
+import { IApiOrderItem, IOrderItemData, IOrderItemWithPrice } from "../orderitems/types";
 
 export interface IOrderState {
     byId: IOrderDictionary;
@@ -11,6 +11,11 @@ export interface IOrderDictionary { [orderId: string]: IOrder; }
 export interface IOrder {
     readonly id: string;
     readonly customerId: string;
+}
+
+export interface IOrderWithData extends IOrder {
+    items: IOrderItemWithPrice[];
+    total: number;
 }
 
 // Types for deserialized api data
