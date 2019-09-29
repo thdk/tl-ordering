@@ -1,32 +1,35 @@
 import { Dispatch } from "redux";
-import {
-    FETCH_PRODUCTS_FAILURE,
-    FETCH_PRODUCTS_REQUEST,
-    FETCH_PRODUCTS_SUCCESS,
-    IFetchProductsAction,
-    IFetchProductsFailureAction,
-    IFetchProductsSuccessAction,
-} from "./actiontypes";
+import * as types from "./constants";
 import { convertProducts } from "./deserialization";
 import { IProductData } from "./types";
 
-// begin fetch products
-export const fetchProductsRequest = (): IFetchProductsAction => {
+// action types
+
+export type FetchProductsAction = ReturnType<typeof fetchProductsRequest>;
+export type FetchProductsSuccessAction = ReturnType<typeof fetchProductsSuccess>;
+export type FetchProductsFailureAction = ReturnType<typeof fetchProductsFailure>;
+
+export type ProductAction =
+    FetchProductsAction |
+    FetchProductsSuccessAction |
+    FetchProductsFailureAction;
+
+export const fetchProductsRequest = () => {
     return {
-        type: FETCH_PRODUCTS_REQUEST,
+        type: types.FETCH_PRODUCTS_REQUEST as typeof types.FETCH_PRODUCTS_REQUEST,
     };
 };
 
-const fetchProductsSuccess = (products: IProductData[]): IFetchProductsSuccessAction => {
+const fetchProductsSuccess = (products: IProductData[]) => {
     return {
-        type: FETCH_PRODUCTS_SUCCESS,
+        type: types.FETCH_PRODUCTS_SUCCESS as typeof types.FETCH_PRODUCTS_SUCCESS,
         payload: products,
     };
 };
 
-const fetchProductsFailure = (ex: any): IFetchProductsFailureAction => {
+const fetchProductsFailure = (ex: any) => {
     return {
-        type: FETCH_PRODUCTS_FAILURE,
+        type: types.FETCH_PRODUCTS_FAILURE as typeof types.FETCH_PRODUCTS_FAILURE,
         payload: ex,
     };
 };
@@ -48,5 +51,3 @@ export function fetchProducts() {
             });
     };
 }
-
-// end fetch products

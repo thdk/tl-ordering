@@ -3,7 +3,7 @@ import { render } from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import { App } from "./components/App/App";
+import App from "./components/App/App";
 import { OrderDetail, OrderList } from "./components/Order";
 import { IOrderMatchProps } from "./components/Order/Detail/OrderDetail";
 import { configureStore } from "./configureStore";

@@ -48,7 +48,6 @@ describe("Order actions", () => {
             customerId: "c1",
             id: "o1",
             items: [],
-            total: 10,
           },
         ],
       },
@@ -63,13 +62,6 @@ describe("Order actions", () => {
   });
 
   it("creates FETCH_ORDERS_FAILURE when fetching orders fails", () => {
-    const order1: IApiOrder = {
-      id: "o1",
-      items: [],
-      total: "10.00",
-    };
-
-    order1["customer-id"] = "c1";
 
     fetchMock.getOnce("http://test.api/orders", {
       throws: new TypeError("TEST API FAIL"),
@@ -169,7 +161,6 @@ describe("Order actions", () => {
                   orderId: "o1",
                 },
               ],
-              total: 10,
             },
           },
         },

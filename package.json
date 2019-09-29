@@ -9,25 +9,27 @@
     "start": "npm run build && lite-server",
     "server": "lite-server",
     "tslint:fix": "tslint --fix --project . ",
-    "tslint": "tslint --project ."
+    "tslint": "tslint --project .",
+    "coverage": "start coverage\\lcov-report\\index.html"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react": "^16.10.1",
+    "react-dom": "^16.10.1",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
+    "@testing-library/react": "^9.2.0",
     "@types/enzyme": "^3.10.3",
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "@types/fetch-mock": "^7.3.1",
     "@types/jest": "^24.0.18",
-    "@types/react": "^16.8.24",
-    "@types/react-dom": "^16.8.5",
+    "@types/react": "^16.9.3",
+    "@types/react-dom": "^16.9.1",
     "@types/react-redux": "^7.1.1",
     "@types/react-router-dom": "^4.3.4",
     "@types/react-test-renderer": "^16.9.0",

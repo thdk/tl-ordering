@@ -1,9 +1,9 @@
 import { Dispatch } from "redux";
 
+import { getOrder } from "../app/selectors";
 import { IState } from "../app/types";
 import * as types from "./constants";
 import { convertOrders, convertPlaceOrderResult } from "./deserialization";
-import { getOrder } from "./reducer";
 import { serializeOrder } from "./serialization";
 import { IOrderData, IPlaceOrderData } from "./types";
 
@@ -26,25 +26,19 @@ export type OrderAction =
 // action creators
 
 // begin fetch orders
-export const fetchOrdersRequest = () => {
-    return {
-        type: types.FETCH_ORDERS_REQUEST as typeof types.FETCH_ORDERS_REQUEST,
-    };
-};
+export const fetchOrdersRequest = () => ({
+    type: types.FETCH_ORDERS_REQUEST as typeof types.FETCH_ORDERS_REQUEST,
+});
 
-export const fetchOrdersSuccess = (orders: IOrderData[]) => {
-    return {
-        type: types.FETCH_ORDERS_SUCCESS as typeof types.FETCH_ORDERS_SUCCESS,
-        payload: orders,
-    };
-};
+export const fetchOrdersSuccess = (orders: IOrderData[]) => ({
+    type: types.FETCH_ORDERS_SUCCESS as typeof types.FETCH_ORDERS_SUCCESS,
+    payload: orders,
+});
 
-export const fetchOrdersFailure = (error: Error) => {
-    return {
-        type: types.FETCH_ORDERS_FAILURE as typeof types.FETCH_ORDERS_FAILURE,
-        error,
-    };
-};
+export const fetchOrdersFailure = (error: Error) => ({
+    type: types.FETCH_ORDERS_FAILURE as typeof types.FETCH_ORDERS_FAILURE,
+    error,
+});
 
 export function fetchOrders() {
     return (dispatch: Dispatch) => {

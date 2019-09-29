@@ -1,4 +1,4 @@
-import { IApiOrderItem, IOrderItemData, IOrderItemWithPrice } from "../orderitems/types";
+import { IApiOrderItem, IOrderItemData } from "../orderitems/types";
 
 export interface IOrderState {
     byId: IOrderDictionary;
@@ -11,11 +11,7 @@ export interface IOrderDictionary { [orderId: string]: IOrder; }
 export interface IOrder {
     readonly id: string;
     readonly customerId: string;
-}
-
-export interface IOrderWithData extends IOrder {
-    items: IOrderItemWithPrice[];
-    total: number;
+    readonly isPlaced?: boolean;
 }
 
 // Types for deserialized api data
@@ -24,12 +20,11 @@ export interface IOrderData {
     id: string;
     items: IOrderItemData[];
     customerId: string;
-    total: number;
 }
 
 export interface IPlaceOrderData {
     success: boolean;
-    order?: IOrderData;
+    order: IOrderData;
     reason?: string;
 }
 
@@ -60,6 +55,6 @@ export interface IApiOrder extends IApiData {
 
 export interface IApiPlaceOrderResult extends IApiData {
     result: string;
-    order?: IApiOrder;
+    order: IApiOrder;
     reason?: string;
 }

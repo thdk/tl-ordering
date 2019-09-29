@@ -1,33 +1,20 @@
+import * as types from "./constants";
 import { IOrderItem } from "./types";
 
-// action types
-export const ADD_ORDER_ITEM = "ADD_ORDER_ITEM";
-export const REMOVE_ORDER_ITEM = "REMOVE_ORDER_ITEM";
-
 // action interfaces
-export interface IAddOrderItemAction {
-    type: typeof ADD_ORDER_ITEM;
-    payload?: { item: IOrderItem, orderId: string };
-}
+export type AddOrderItemAction = ReturnType<typeof addOrderItem>;
 
-export interface IRemoveOrderItemAction {
-    type: typeof REMOVE_ORDER_ITEM;
-    payload?: { productId: string, orderId: string };
-}
+export type RemoveOrderItemAction = ReturnType<typeof removeOrderItem>;
 
-export type OrderItemAction = IAddOrderItemAction | IRemoveOrderItemAction;
+export type OrderItemAction = AddOrderItemAction | RemoveOrderItemAction;
 
 // action creators
-export const addOrderItem = (orderId: string, orderItem: IOrderItem): IAddOrderItemAction => {
-    return {
+export const addOrderItem = (orderId: string, orderItem: IOrderItem) => ({
         payload: { item: orderItem, orderId },
-        type: ADD_ORDER_ITEM,
-    };
-};
+        type: types.ADD_ORDER_ITEM as typeof types.ADD_ORDER_ITEM,
+});
 
-export const removeOrderItem = (productId: string, orderId: string): IRemoveOrderItemAction => {
-    return {
-        payload: { productId, orderId },
-        type: REMOVE_ORDER_ITEM,
-    };
-};
+export const removeOrderItem = (productId: string, orderId: string) => ({
+    payload: { productId, orderId },
+    type: types.REMOVE_ORDER_ITEM as typeof types.REMOVE_ORDER_ITEM,
+});

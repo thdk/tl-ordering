@@ -11,8 +11,4 @@ const orderingApp = combineReducers<IState>({
     products,
 });
 
-export const getIsLoading = (state: IState) => {
-    return state.orders.isLoading || state.products.isLoading;
-};
-
 export default orderingApp;

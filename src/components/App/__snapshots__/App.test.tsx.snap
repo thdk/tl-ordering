@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App rendering when state is loading should match snapshot 1`] = `
+"<div>
+  App
+</div>"
+`;
+
+exports[`App rendering when state is not loading should match snapshot 1`] = `
+"<div>
+  App
+</div>"
+`;

@@ -5,9 +5,9 @@ import { RouteComponentProps } from "react-router-dom";
 import OrderItemAdd from "./OrderItemAdd";
 
 import { bindActionCreators, Dispatch } from "redux";
+import { getOrder } from "../../../core/app/selectors";
 import { IState } from "../../../core/app/types";
 import { placeOrder } from "../../../core/orders/actions";
-import { getOrder } from "../../../core/orders/reducer";
 import { OrderOverviewLink } from "../../links/OrderOverviewLink";
 import { OrderItemList } from "../../OrderItem";
 

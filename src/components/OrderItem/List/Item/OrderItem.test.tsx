@@ -6,7 +6,8 @@ import configureStore, { MockStoreEnhanced } from "redux-mock-store";
 import { IState } from "../../../../core/app/types";
 import { ProductCategory } from "../../../../core/products/types";
 
-import ConnectedOrderItem from "./OrderItem";
+import { shallow, ShallowWrapper } from "enzyme";
+import ConnectedOrderItem, { OrderItemListItem } from "./OrderItem";
 
 const mockStore = configureStore<Partial<IState>>();
 
@@ -33,24 +34,42 @@ describe("OrderItem rendering for a given state from redux store:", () => {
    });
 
    describe("An OrderItem", () => {
-      let component: renderer.ReactTestRenderer;
+      let component: ShallowWrapper;
+
+      const onDeleteOrderItem = jest.fn();
+
+      const createProps = () => ({
+         orderId: "o1",
+         product: {
+            id: "p1",
+            description: "Product one",
+            price: 3,
+            category: ProductCategory.electronics,
+         },
+         productId: "p1",
+         quantity: 3,
+         onDeleteOrderItem,
+      });
 
       beforeEach(() => {
-         component = renderer.create(
-            <Provider store={store}>
-                  <ConnectedOrderItem productId="p1" orderId="o1" quantity={3} />
-            </Provider>,
-         );
+         component = shallow(<OrderItemListItem {...createProps()}
+         ></OrderItemListItem>);
       });
 
       it("should match snapshot", () => {
-         expect(component.toJSON()).toMatchSnapshot();
+         expect(component.debug()).toMatchSnapshot();
       });
 
       it("should display the full product name", () => {
          expect(
-            component.root.findByProps({ className: "orderitem-product-description" }).children,
-         ).toEqual(["some product"]);
+            component.find(".orderitem-product-description").text(),
+         ).toEqual("Product one");
+      });
+
+      it("should call onDeleteOrderItem", () => {
+         component.find(".orderitem-button-delete").simulate("click");
+
+         expect(onDeleteOrderItem).toBeCalled();
       });
    });
 
@@ -61,7 +80,7 @@ describe("OrderItem rendering for a given state from redux store:", () => {
          component = renderer.create(
             <Provider store={store}>
                <Router>
-                  <ConnectedOrderItem productId="p2" orderId="o1" quantity={3}  />
+                  <ConnectedOrderItem productId="p2" orderId="o1" quantity={3} />
                </Router>
             </Provider>);
       });

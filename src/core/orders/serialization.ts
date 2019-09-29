@@ -1,6 +1,7 @@
-import { IApiOrder, IOrder, IOrderWithData } from "./types";
+import { IApiOrder } from "./types";
 
-import { IApiOrderItem, IOrderItemWithPrice } from "../orderitems/types";
+import { IOrderItemWithPrice, IOrderWithData } from "../app/types";
+import { IApiOrderItem } from "../orderitems/types";
 
 export const serializeOrder = (order: IOrderWithData): IApiOrder => {
     const apiItems = serializeOrderItems(order.items);

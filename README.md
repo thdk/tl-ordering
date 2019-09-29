@@ -60,13 +60,22 @@ process.env.apiUrl = 'https://api.example.com';
  }),
 ```
 
+## Tests
+
+```sh
+ npm run test
+```
+
+Note: after running `npm run test` you can run `npm run coverage` to view the code coverage of the last ran tests.
+
 ## Built With
 
-* [react](https://reactjs.org/) - The web framework used
+* [react](https://reactjs.org/) - Web framework
 * [redux](https://rometools.github.io/rome/) - State management
 * [typescript](https://www.typescriptlang.org/) - Javascript that scales
 * [rollup](https://rollupjs.org) - Module bundler
 * [npm](https://www.npmjs.com/) - Package manager
+* [jest](https://jestjs.io/) - Javascript testing framework
 
 ## Browser support notice
 

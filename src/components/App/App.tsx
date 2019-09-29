@@ -1,34 +1,49 @@
 import React, { ReactNode, useEffect } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
 
-import { getIsLoading } from "../../core/app/reducer";
+import { getIsLoading } from "../../core/app/selectors";
 import { IState } from "../../core/app/types";
-import { fetchOrders } from "../../core/orders/actions";
-import { getVisibleOrders } from "../../core/orders/reducer";
-import { fetchProducts } from "../../core/products/actions";
+import { fetchOrders as fetchOrderAction } from "../../core/orders/actions";
+import { fetchProducts as fetchProductsAction } from "../../core/products/actions";
 
 export interface IAppProps {
   children: ReactNode;
 }
 
-type Props = IAppProps;
+type Props = StateProps & DispatchProps & IAppProps;
 
 export const App = (props: Props) => {
-  const { children } = props;
-  const dispatch = useDispatch();
+  const { children, isLoading, fetchOrders, fetchProducts } = props;
 
   useEffect(() => {
-    dispatch(fetchProducts());
-    dispatch(fetchOrders());
+    fetchOrders();
+    fetchProducts();
   }, []);
 
-  const isLoading = useSelector((state: IState) => getIsLoading(state));
-
-  const appJSX = isLoading ? <>LOADING</> : children;
+  const appJSX = isLoading ? <span data-testid="app-loading">LOADING</span> : children;
   return (
     <div>
       {appJSX}
     </div>
   );
 };
+
+type StateProps = ReturnType<typeof mapStatetoProps>;
+
+const mapStatetoProps = (state: IState) => ({
+  isLoading: getIsLoading(state),
+});
+
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      fetchProducts: fetchProductsAction,
+      fetchOrders: fetchOrderAction,
+    },
+    dispatch,
+  );
+
+export default connect(mapStatetoProps, mapDispatchToProps)(App);

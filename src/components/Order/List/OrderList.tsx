@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { getVisibleOrders } from "../../../core/app/selectors";
 import { IState } from "../../../core/app/types";
-import { getVisibleOrders } from "../../../core/orders/reducer";
 import { OrderListItem } from "./Item/OrderListItem";
 import OrderListItemHeader from "./Item/OrderListItemHeader";
 
@@ -27,7 +27,7 @@ export const OrderList = (props: OrderListProps) => {
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 
-const mapStateToProps = (state: IState) => ({
+export const mapStateToProps = (state: IState) => ({
     orders: getVisibleOrders(state),
 });
 

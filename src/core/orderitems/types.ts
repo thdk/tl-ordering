@@ -7,10 +7,6 @@ export interface IOrderItem {
     readonly quantity: number;
 }
 
-export interface IOrderItemWithPrice extends IOrderItem {
-    readonly unitPrice: number;
-}
-
 // Types for deserialized api data
 
 export interface IOrderItemData {

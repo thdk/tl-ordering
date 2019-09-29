@@ -2,10 +2,10 @@ import React, { useCallback } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { getProduct } from "../../../../core/app/selectors";
 import { IState } from "../../../../core/app/types";
 import { removeOrderItem } from "../../../../core/orderitems/actions";
 import { IOrderItem } from "../../../../core/orderitems/types";
-import { getProduct } from "../../../../core/products/reducer";
 
 export interface IOrderItemProps extends IOrderItem {
     orderId: string;
@@ -13,7 +13,7 @@ export interface IOrderItemProps extends IOrderItem {
 
 type Props = IOrderItemProps & DispatchProps & StateProps;
 
-const OrderItem: React.FunctionComponent<Props> = (props: Props) => {
+export const OrderItemListItem: React.FunctionComponent<Props> = (props: Props) => {
     const { onDeleteOrderItem, productId, quantity, product, orderId } = props;
 
     const onClick = useCallback(() => onDeleteOrderItem(productId, orderId), [productId]);
@@ -29,12 +29,12 @@ const OrderItem: React.FunctionComponent<Props> = (props: Props) => {
             <span className="orderitem-quantity">
                 {quantity}
             </span> x ${price.toFixed(2)} = ${(price * quantity).toFixed(2)}
-            <input type="button" value="x" onClick={onClick} />
+            <input className="orderitem-button-delete" type="button" value="x" onClick={onClick} />
         </li>
     );
 };
 
-OrderItem.displayName = "OrderItem";
+OrderItemListItem.displayName = "OrderItem";
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 
@@ -51,6 +51,6 @@ const mapDispatchToProps = {
 const ConnectedOrderItem = connect(
     mapStateToProps,
     mapDispatchToProps,
-)(OrderItem);
+)(OrderItemListItem);
 
 export default ConnectedOrderItem;

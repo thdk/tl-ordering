@@ -3,7 +3,7 @@ import React from "react";
 
 import { OrderListItem } from "./Item/OrderListItem";
 import { OrderListItemHeader } from "./Item/OrderListItemHeader";
-import { OrderList } from "./OrderList";
+import { mapStateToProps, OrderList } from "./OrderList";
 
 describe("Render OrderList", () => {
     let component: ShallowWrapper;
@@ -71,4 +71,29 @@ describe("Render OrderList", () => {
             expect(component.debug()).toMatchSnapshot();
         });
     });
+});
+
+describe("OrderList mapStateToProps", () => {
+    const stateProps = mapStateToProps({
+        orderItems: {
+            byOrderId: {},
+        },
+        orders: {
+            byId: {
+                o1: {
+                    customerId: "c1",
+                    id: "o1",
+                },
+            },
+            isLoading: false,
+            visibleIds: ["o1"],
+        },
+        products: {
+            allIds: [],
+            byId: {},
+            isLoading: false,
+        },
+    });
+
+    expect(stateProps.orders.length).toBe(1);
 });

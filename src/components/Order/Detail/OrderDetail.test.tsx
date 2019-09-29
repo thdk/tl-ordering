@@ -50,7 +50,7 @@ describe("OrderDetail rendering", () => {
                   ],
                   total: 115.05,
                }}
-                />,
+            />,
          );
       });
 
@@ -101,7 +101,7 @@ describe("OrderDetail rendering", () => {
                   id: "o1",
                   items: [],
                   total: 0,
-               }}/>,
+               }} />,
          );
       });
 

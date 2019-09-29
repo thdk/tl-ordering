@@ -1,11 +1,9 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
 
+import { getProducts } from "../../../core/app/selectors";
 import { IState } from "../../../core/app/types";
 import { addOrderItem } from "../../../core/orderitems/actions";
-import { IOrderItem } from "../../../core/orderitems/types";
-import { getProducts } from "../../../core/products/reducer";
 
 export interface IOrderItemAddProps {
     readonly orderId: string;
@@ -15,24 +13,23 @@ type Props = StateProps & DispatchProps & IOrderItemAddProps;
 
 export const OrderItemAdd: React.FunctionComponent<Props> = props => {
     const { onAdd, products, orderId } = props;
-    const defaultQuantiy = 1;
 
     const [productId, setProductId] = useState("");
     const [quantity, setQuantity] = useState(1);
 
     const handleQuantityChanged = useCallback<(e: React.ChangeEvent<HTMLInputElement>) => void>(e => {
-        setQuantity(+e.currentTarget.value);
+        const value = +e.currentTarget.value;
+        setQuantity(value);
     }, []);
 
     const handleProductChanged = useCallback<(e: React.ChangeEvent<HTMLSelectElement>) => void>(e => {
-        setProductId(e.currentTarget.value);
+        const value = e.currentTarget.value;
+        setProductId(value);
     }, []);
 
     const handleSubmit = useCallback((e: React.FormEvent) => {
         e.preventDefault();
         e.stopPropagation();
-
-        // Todo: validate input
 
         if (productId) {
             onAdd(orderId, {
@@ -41,15 +38,13 @@ export const OrderItemAdd: React.FunctionComponent<Props> = props => {
             });
         }
 
-        setProductId("");
-        setQuantity(defaultQuantiy);
-
     }, [productId, quantity]);
 
     return (
         <form onSubmit={handleSubmit}>
             <label>Product id:</label>
             <select
+                value={productId}
                 onChange={handleProductChanged}
                 className="orderitem-add-product-select"
             >
@@ -72,7 +67,7 @@ OrderItemAdd.displayName = "OrderItemAdd";
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 
-const mapStateToProps = (state: IState) => ({
+export const mapStateToProps = (state: IState) => ({
     products: getProducts(state),
 });
 

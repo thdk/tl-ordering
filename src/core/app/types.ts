@@ -1,6 +1,6 @@
 import { Action } from "redux";
-import { IOrderItemState } from "../orderitems/types";
-import { IOrderState } from "../orders/types";
+import { IOrderItem, IOrderItemState } from "../orderitems/types";
+import { IOrder, IOrderState } from "../orders/types";
 import { IProductState } from "../products/types";
 
 export interface IState {
@@ -11,4 +11,13 @@ export interface IState {
 
 export interface IAction<T, P = undefined> extends Action<T> {
     payload?: P;
+}
+
+export interface IOrderWithData extends IOrder {
+    items: IOrderItemWithPrice[];
+    total: number;
+}
+
+export interface IOrderItemWithPrice extends IOrderItem {
+    readonly unitPrice: number;
 }

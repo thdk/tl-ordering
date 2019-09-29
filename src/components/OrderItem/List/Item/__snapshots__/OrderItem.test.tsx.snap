@@ -3,26 +3,18 @@
 exports[`OrderItem rendering for a given state from redux store: An OrderItem for an invalid product should match snapshot 1`] = `null`;
 
 exports[`OrderItem rendering for a given state from redux store: An OrderItem should match snapshot 1`] = `
-<li>
-  <span
-    className="orderitem-product-description"
-  >
-    some product
+"<li>
+  <span className=\\"orderitem-product-description\\">
+    Product one
   </span>
   :
-  <span
-    className="orderitem-quantity"
-  >
+  <span className=\\"orderitem-quantity\\">
     3
   </span>
    x $
-  10.99
+  3.00
    = $
-  32.97
-  <input
-    onClick={[Function]}
-    type="button"
-    value="x"
-  />
-</li>
+  9.00
+  <input className=\\"orderitem-button-delete\\" type=\\"button\\" value=\\"x\\" onClick={[Function]} />
+</li>"
 `;

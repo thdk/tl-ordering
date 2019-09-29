@@ -51,22 +51,3 @@ export default combineReducers({
     allIds,
     isLoading,
 });
-
-export function getProduct(state: IState, productId: string) {
-    const product = state.products.byId[productId];
-    if (!product) {
-        // TODO: use logger
-        // console.error(`Product with id ${productId} not found.`);
-    }
-
-    return product;
-}
-
-export function getProducts(state: IState) {
-    return state.products.allIds.map(productId => getProduct(state, productId));
-}
-
-export function getProductPrice(state: IState, id: string) {
-    const product = getProduct(state, id);
-    return product ? product.price : undefined;
-}
