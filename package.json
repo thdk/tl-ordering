@@ -10,7 +10,8 @@
     "server": "lite-server",
     "tslint:fix": "tslint --fix --project . ",
     "tslint": "tslint --project .",
-    "coverage": "start coverage\\lcov-report\\index.html"
+    "coverage": "start coverage\\lcov-report\\index.html",
+    "tsc": "tsc --noEmit"
   },
   "author": "",
   "license": "ISC",
