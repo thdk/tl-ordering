@@ -1,6 +1,5 @@
 import { combineReducers } from "redux";
-import { IState } from "../app/types";
-import { ProductAction } from "./actiontypes";
+import { ProductAction } from "./actions";
 import { IProductDictionary } from "./types";
 
 export function byId(
