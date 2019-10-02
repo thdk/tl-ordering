@@ -46,7 +46,6 @@ export function fetchProducts() {
                     });
             })
             .catch(ex => {
-                console.error(ex);
                 dispatch(fetchProductsFailure(ex));
             });
     };
