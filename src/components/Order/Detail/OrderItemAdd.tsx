@@ -42,15 +42,18 @@ export const OrderItemAdd: React.FunctionComponent<Props> = props => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <label>Product id:</label>
+            <label>Product:</label>
             <select
                 value={productId}
                 onChange={handleProductChanged}
                 className="orderitem-add-product-select"
             >
                 <option value="">Select a product</option>
-                ${products.map(product => <option key={product.id} value={product.id}>{product.id}</option>)}
+                ${products.map(product => (
+                    <option key={product.id} value={product.id}>{product.description}</option>
+                ))}
             </select>
+
             <label>Quantity:</label>
             <input className="orderitem-add-quantity"
                 onChange={handleQuantityChanged}
