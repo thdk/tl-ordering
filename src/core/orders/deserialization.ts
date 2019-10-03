@@ -17,6 +17,7 @@ export const convertOrder = (apiData: IApiOrder): IOrderData => ({
     id: apiData.id,
     customerId: apiData["customer-id"],
     items: apiData.items.map(item => convertOrderItem(item, apiData.id)),
+    isPlaced: apiData.isPlaced,
 });
 
 export const convertOrderItem = (apiData: IApiOrderItem, orderId: string): IOrderItemData => ({

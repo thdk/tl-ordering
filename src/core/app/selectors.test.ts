@@ -1,5 +1,5 @@
 import { ProductCategory } from "../products/types";
-import { getIsLoading, getProduct, getProducts, getVisibleOrders } from "./selectors";
+import { getAreOrdersFetched, getIsLoading, getProduct, getProducts, getVisibleOrders } from "./selectors";
 import { IState } from "./types";
 
 const createState = (isProductsLoading = false, isOrdersLoading = false): IState => ({
@@ -66,6 +66,13 @@ const createState = (isProductsLoading = false, isOrdersLoading = false): IState
 });
 
 describe("App selectors:", () => {
+    describe("areOrdersFetched", () => {
+        const areOrdersFetched = getAreOrdersFetched(createState());
+
+        it("should default be false", () => {
+            expect(areOrdersFetched).toBe(false);
+        });
+    });
 
     describe("getIsLoading", () => {
         describe("when products are loading", () => {

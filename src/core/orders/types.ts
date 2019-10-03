@@ -3,7 +3,8 @@ import { IApiOrderItem, IOrderItemData } from "../orderitems/types";
 export interface IOrderState {
     byId: IOrderDictionary;
     visibleIds: string[];
-    isLoading: boolean;
+    isLoading?: boolean;
+    isFetched?: boolean;
 }
 
 export interface IOrderDictionary { [orderId: string]: IOrder; }
@@ -20,12 +21,14 @@ export interface IOrderData {
     id: string;
     items: IOrderItemData[];
     customerId: string;
+    isPlaced?: boolean;
 }
 
 export interface IPlaceOrderData {
     success: boolean;
     order: IOrderData;
     reason?: string;
+    isPlaced?: boolean;
 }
 
 // Types representing data from/for API
@@ -51,6 +54,7 @@ export interface IApiOrder extends IApiData {
     id: string;
     items: IApiOrderItem[];
     total: string;
+    isPlaced?: boolean;
 }
 
 export interface IApiPlaceOrderResult extends IApiData {

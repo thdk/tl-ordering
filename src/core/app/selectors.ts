@@ -2,18 +2,28 @@ import { IOrderItemWithPrice, IOrderWithData, IState } from "./types";
 
 import { selectOrderItems } from "../orderitems/selectors";
 import {
+    selectAreOrdersFetched,
     selectIsLoading as selectIsOrdersLoading,
     selectOrder,
     selectVisibleOrders,
 } from "../orders/selectors";
 
-import { selectIsLoading as selectIsProductsLoading, selectProducts } from "../products/selectors";
+import {
+    selectIsLoading as selectIsProductsLoading,
+    selectProduct,
+    selectProductPrice,
+    selectProducts,
+} from "../products/selectors";
 
 import { IOrder } from "../orders/types";
-import { selectProduct, selectProductPrice } from "../products/selectors";
+import { } from "../products/selectors";
 
 export const getIsLoading = (state: IState) =>
     selectIsOrdersLoading(state.orders) || selectIsProductsLoading(state.products);
+
+export const getAreOrdersFetched = (state: IState) => {
+    return selectAreOrdersFetched(state.orders);
+};
 
 export const getOrder = (state: IState, id: string): IOrderWithData | null => {
     const order = selectOrder(state.orders, id);

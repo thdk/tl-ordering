@@ -12,8 +12,8 @@ export function byId(
             return action.payload.reduce((p, c) => {
                 // Orders reducer only needs id and customerId
                 // Don't save other properties such as items and total here
-                const { id, customerId } = c;
-                p[c.id] = { customerId, id };
+                const { items, ...rest } = c;
+                p[c.id] = rest;
                 return p;
             }, {} as IOrderDictionary);
         }
@@ -35,13 +35,27 @@ export function byId(
     }
 }
 
-export function isLoading(_: boolean = true, action: OrderAction) {
+export function isFetched(state: boolean = false, action: OrderAction) {
+    switch (action.type) {
+        case types.FETCH_ORDERS_SUCCESS: {
+            return true;
+        }
+        default: {
+            return state;
+        }
+    }
+}
+
+export function isLoading(state: boolean = true, action: OrderAction) {
     switch (action.type) {
         case types.FETCH_ORDERS_REQUEST: {
             return true;
         }
-        default:
+        case types.FETCH_ORDERS_FAILURE:
+        case types.FETCH_ORDERS_SUCCESS:
             return false;
+        default:
+            return state;
     }
 }
 
@@ -61,4 +75,5 @@ export default combineReducers<IOrderState, OrderAction>({
     byId,
     visibleIds,
     isLoading,
+    isFetched,
 });

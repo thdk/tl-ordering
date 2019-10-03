@@ -1,8 +1,9 @@
+import { getOrder } from "../app/selectors";
 import { fetchOrdersFailure, fetchOrdersRequest, placeOrderSuccess } from "./actions";
 import * as types from "./constants";
 import reducer from "./reducer";
-import { selectOrder } from "./selectors";
-import { IOrderState, IPlaceOrderData } from "./types";
+import { selectOrder, selectVisibleOrders } from "./selectors";
+import { IOrder, IOrderState, IPlaceOrderData } from "./types";
 
 let initialState: IOrderState;
 
@@ -39,7 +40,7 @@ describe("Orders reducer:", () => {
                             quantity: 2,
                         },
                     ],
-                    total: 20,
+                    isPlaced: true,
                 },
                 {
                     customerId: "c2",
@@ -56,7 +57,6 @@ describe("Orders reducer:", () => {
                             quantity: 1,
                         },
                     ],
-                    total: 25,
                 },
             ];
 
@@ -68,20 +68,21 @@ describe("Orders reducer:", () => {
                 });
 
             it("should update state with orders from payload", () => {
-                expect(newState).toEqual({
-                    byId: {
-                        o1: {
-                            customerId: "c1",
-                            id: "o1",
-                        },
-                        o2: {
-                            customerId: "c2",
-                            id: "o2",
-                        },
+                expect(selectVisibleOrders(newState)).toEqual([
+                    {
+                        customerId: "c1",
+                        id: "o1",
+                        isPlaced: true,
                     },
-                    isLoading: false,
-                    visibleIds: ["o1", "o2"],
-                } as IOrderState);
+                    {
+                        customerId: "c2",
+                        id: "o2",
+                    },
+                ] as IOrder[]);
+            });
+
+            it("should set isFetched to true", () => {
+                expect(newState.isFetched).toBe(true);
             });
         });
     });
@@ -98,7 +99,6 @@ describe("Orders reducer:", () => {
                             id: "o1",
                         },
                     },
-                    isLoading: false,
                     visibleIds: ["o1"],
                 };
             });
@@ -139,7 +139,7 @@ describe("Orders reducer:", () => {
                 });
 
                 it("should not change the order", () => {
-                    expect(newState).toBe(initialState);
+                    expect(selectOrder(newState, "o1")).toBe(selectOrder(initialState, "o1"));
                 });
             });
 

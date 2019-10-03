@@ -15,6 +15,10 @@ export function selectVisibleOrders(state: IOrderState) {
         .filter(o => !!o) as IOrder[];
 }
 
+export function selectAreOrdersFetched(state: IOrderState) {
+    return !!state.isFetched;
+}
+
 export function selectIsLoading(state: IOrderState) {
     return state.isLoading;
 }
