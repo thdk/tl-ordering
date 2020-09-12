@@ -41,7 +41,7 @@
     "fetch-mock": "^7.3.9",
     "jest": "^24.9.0",
     "lite-server": "^2.5.3",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "react-test-renderer": "^16.8.6",
     "redux-mock-store": "^1.5.3",
     "rollup": "^1.17.0",
